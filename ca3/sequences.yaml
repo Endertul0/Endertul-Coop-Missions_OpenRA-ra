@@ -1,0 +1,13 @@
+
+tca:
+    idle:
+        Filename: ca.shp
+        Facings: 16
+    turret:
+        Filename: turr.shp
+        Facings: 32
+    muzzle:
+        Filename: gunfire2.shp
+        Length: 5
+    icon:
+        Filename: tcaicon.shp

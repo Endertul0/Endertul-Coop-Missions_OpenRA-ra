@@ -1,0 +1,4 @@
+
+LongTesla:
+    Inherits: TeslaZap
+    Range: 20c0
