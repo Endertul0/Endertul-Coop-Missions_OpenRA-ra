@@ -24,7 +24,6 @@ spiesInLst1 = { false, false }
 producedYet = false
 
 
-
 ParadropUnits = function(playerOwner)
     local PowerProxy = Actor.Create(ProxyType, false, { Owner = playerOwner })
     local lz = Utils.Random(ParadropWaypoints)
