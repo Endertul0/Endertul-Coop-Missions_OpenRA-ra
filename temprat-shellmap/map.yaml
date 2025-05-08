@@ -1,0 +1,71 @@
+MapFormat: 12
+
+RequiresMod: ra
+
+Title: Temprat Shellmap
+
+Author: Endertul0
+
+Tileset: TEMPERAT
+
+MapSize: 130,130
+
+Bounds: 1,1,128,128
+
+Visibility: Shellmap
+
+Categories: Shellmap
+
+Players:
+	PlayerReference@Neutral:
+		Name: Neutral
+		OwnsWorld: True
+		NonCombatant: True
+		Faction: england
+	PlayerReference@Spain:
+		Name: Spain
+		NonCombatant: True
+		Faction: spain
+		Color: F6D679
+		Enemies: Allies, Soviets
+	PlayerReference@Allies:
+		Name: Allies
+		Faction: allies
+		Color: ABB7E4
+		Enemies: Soviets, Spain
+	PlayerReference@Soviets:
+		Name: Soviets
+		Faction: soviet
+		Color: FE1100
+		Enemies: Allies, Spain
+
+Actors:
+	AB1: tent
+		Owner: Allies
+		Location: 41,59
+	AB2: tent
+		Owner: Allies
+		Location: 46,58
+	SB1: barr
+		Faction: allies
+		Location: 61,77
+		Owner: Soviets
+	SB2: barr
+		Faction: allies
+		Location: 65,79
+		Owner: Soviets
+	SB3: barr
+		Faction: allies
+		Location: 70,78
+		Owner: Soviets
+	SWF1: weap
+		Faction: allies
+		Location: 73,81
+		Owner: Soviets
+	AWF1: weap
+		Owner: Allies
+		Location: 50,56
+
+Rules: rules.yaml
+
+Weapons: weapons.yaml

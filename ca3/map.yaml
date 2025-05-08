@@ -1,0 +1,327 @@
+MapFormat: 12
+
+RequiresMod: ra
+
+Title: Allies 03
+
+Author: Endertul
+
+Tileset: TEMPERAT
+
+MapSize: 98,98
+
+Bounds: 1,1,96,96
+
+Visibility: Lobby
+
+Categories: Endertul Coop Mission
+
+LockPreview: True
+
+Players:
+	PlayerReference@Neutral:
+		Name: Neutral
+		OwnsWorld: True
+		NonCombatant: True
+		Faction: allies
+	PlayerReference@Spain:
+		Name: Spain
+		NonCombatant: True
+		Faction: spain
+		Color: F6D679
+		Enemies: Allies1, Allies2, Allies, USSR
+	PlayerReference@Allies1:
+		Name: Allies1
+		Playable: True
+		Required: True
+		LockFaction: True
+		Faction: allies
+		Color: ABB7E4
+		LockSpawn: True
+		LockTeam: True
+		Allies: Allies2, Allies
+		Enemies: USSR, Spain, Balatovik, BalatovikHO
+	PlayerReference@Allies2:
+		Name: Allies2
+		Playable: True
+		LockFaction: True
+		Faction: allies
+		Color: A1EF8C
+		LockSpawn: True
+		LockTeam: True
+		Allies: Allies1, Allies
+		Enemies: USSR, Spain, Balatovik, BalatovikHO
+	PlayerReference@Allies:
+		Name: Allies
+		Bot: campaign
+		NonCombatant: True
+		Faction: allies
+		Color: 5CC1A3
+		Allies: Allies1, Allies2
+		Enemies: USSR, Spain, Balatovik, BalatovikHO
+	PlayerReference@USSR:
+		Name: USSR
+		Bot: campaign
+		Faction: soviet
+		Color: FE1100
+		Allies: Balatovik, BalatovikHO
+		Enemies: Allies1, Allies2, Allies, Spain
+	PlayerReference@Balatovik:
+		Name: Balatovik
+		Bot: campaign
+		Faction: soviet
+		Color: FF6040
+		Allies: USSR
+		Enemies: Allies1, Allies2, Allies, Spain
+	PlayerReference@BalatovikHO:
+		Name: BalatovikHO
+		Bot: campaign
+		Faction: soviet
+		Color: FF6040
+		Allies: USSR
+		Enemies: Allies1, Allies2, Allies, Spain
+
+Actors:
+	Actor0: fact
+		Owner: Allies1
+		Location: 5,2
+	Actor1: fact
+		Owner: Allies2
+		Location: 6,15
+	Actor2: powr
+		Owner: Allies1
+		Location: 10,4
+	Actor3: powr
+		Owner: Allies2
+		Location: 9,11
+	HeliFlare: flare
+		Owner: Allies
+		Location: 21,9
+	A1Spy1: spy.england
+		Owner: Allies1
+		SubCell: 3
+		Location: 20,9
+		Facing: 800
+	A2Spy: spy.england
+		SubCell: 3
+		Location: 22,10
+		Owner: Allies1
+		Facing: 800
+	Actor5: e1
+		Owner: USSR
+		SubCell: 3
+		Location: 45,9
+		Facing: 261
+		Stance: HoldFire
+	Actor6: e1
+		Owner: USSR
+		SubCell: 3
+		Location: 45,11
+		Facing: 222
+		Stance: HoldFire
+	Actor7: camera.paradrop
+		Owner: Allies
+		Location: 45,10
+	SpyLstFlare1: flare
+		Owner: Allies
+		Location: 55,19
+	SpyLst1: lst
+		Location: 54,20
+		Facing: 384
+		Owner: Allies
+	SyrdFcom1: fcom
+		Owner: Neutral
+		Location: 28,26
+	FComFlare1: flare
+		Location: 29,26
+		Owner: Allies
+	Syrd1: syrd
+		Owner: Neutral
+		Location: 32,27
+	Syrd2: syrd
+		Owner: Neutral
+		Location: 30,30
+	SyrdFlare1: flare
+		Owner: Allies
+		Location: 33,28
+	SyrdFlare2: flare
+		Owner: Allies
+		Location: 31,31
+	UnloadPoint1: waypoint
+		Owner: Allies
+		Location: 43,42
+	LoadPoint1: waypoint
+		Owner: Allies
+		Location: 54,20
+	Actor20: tsla
+		Owner: USSR
+		Location: 29,54
+	Actor21: tsla
+		Owner: USSR
+		Location: 29,58
+	StekObjBuilding: stek
+		Location: 36,74
+		Owner: BalatovikHO
+	app5: apwr
+		Owner: USSR
+		Location: 82,38
+	app4: apwr
+		Owner: USSR
+		Location: 79,38
+	app3: apwr
+		Owner: USSR
+		Location: 76,38
+	app2: apwr
+		Owner: USSR
+		Location: 73,38
+	app1: apwr
+		Owner: USSR
+		Location: 70,38
+	Actor28: gun
+		Owner: USSR
+		Location: 66,56
+		TurretFacing: 111
+	Actor29: gun
+		Owner: USSR
+		Location: 63,55
+		TurretFacing: 864
+	Actor30: ftur
+		Owner: Balatovik
+		Location: 48,74
+		Stance: HoldFire
+	Actor31: ftur
+		Owner: Balatovik
+		Location: 48,76
+		Stance: HoldFire
+	BvkUnit: balatovik
+		SubCell: 3
+		Location: 52,90
+		Stance: HoldFire
+		Owner: BalatovikHO
+		Facing: 539
+	bG1: e4
+		Owner: BalatovikHO
+		SubCell: 3
+		Location: 47,91
+		Stance: HoldFire
+		Facing: 384
+	bG2: e4
+		Owner: BalatovikHO
+		Facing: 384
+		Location: 47,91
+		SubCell: 1
+		Stance: HoldFire
+	bG3: e4
+		Owner: BalatovikHO
+		Location: 47,91
+		SubCell: 2
+		Facing: 384
+		Stance: HoldFire
+	bG4: e4
+		Owner: BalatovikHO
+		Location: 48,92
+		SubCell: 3
+		Stance: HoldFire
+		Facing: 384
+	bG5: e4
+		Owner: BalatovikHO
+		Facing: 384
+		Location: 48,92
+		SubCell: 1
+		Stance: HoldFire
+	bG6: e4
+		Owner: BalatovikHO
+		Location: 48,92
+		SubCell: 2
+		Facing: 384
+		Stance: HoldFire
+	bG7: e4
+		Owner: BalatovikHO
+		Location: 48,92
+		SubCell: 3
+		Stance: HoldFire
+		Facing: 384
+	Actor42: tran.husk2
+		Facing: 384
+		Location: 48,89
+		Owner: BalatovikHO
+	BEC1: camera.paradrop
+		Owner: Allies
+		Location: 44,91
+	BEvacTo: waypoint
+		Faction: allies
+		Location: 95,90
+		Owner: BalatovikHO
+	GuardLoc: waypoint
+		Faction: allies
+		Location: 95,86
+		Owner: BalatovikHO
+	bC1: camera
+		Owner: BalatovikHO
+		Location: 92,64
+	bC2: camera
+		Owner: BalatovikHO
+		Location: 92,75
+	bC5: camera
+		Owner: BalatovikHO
+		Location: 92,86
+	bC7: camera
+		Owner: BalatovikHO
+		Location: 92,95
+	bC6: camera
+		Owner: BalatovikHO
+		Location: 82,95
+	bC4: camera
+		Owner: BalatovikHO
+		Location: 82,86
+	bC3: camera
+		Owner: BalatovikHO
+		Location: 82,75
+	WE1: waypoint
+		Location: 52,32
+		Owner: Allies
+	WE2: waypoint
+		Location: 67,27
+		Owner: Allies
+	WE3: waypoint
+		Location: 80,23
+		Owner: Allies
+	WE4: waypoint
+		Location: 85,11
+		Owner: Allies
+	WEE: waypoint
+		Location: 89,0
+		Owner: Allies
+	A1Spy: spy.strong
+		Owner: Allies1
+		SubCell: 3
+		Location: 44,70
+		Facing: 384
+	aagn1: agun
+		Owner: Allies
+		Location: 45,92
+		TurretFacing: 697
+	aagn2: agun
+		Owner: Allies
+		Location: 50,92
+		TurretFacing: 713
+	BEC3: camera.paradrop
+		Owner: Neutral
+		Location: 59,92
+	BEC4: camera.paradrop
+		Owner: Neutral
+		Location: 70,91
+	BEC2: camera.paradrop
+		Owner: Neutral
+		Location: 51,93
+	BvkBridgeAttack: waypoint
+		Owner: Spain
+		Location: 60,92
+
+Rules: ra|rules/campaign-rules.yaml, ra|rules/campaign-tooltips.yaml, ra|rules/campaign-palettes.yaml, ra|rules/coop-missions-rules.yaml, rules.yaml
+
+Translations: ra|languages/lua/en.ftl, ra|languages/difficulties/en.ftl, en.ftl
+
+Sequences: sequences.yaml
+
+Weapons: weapons.yaml
