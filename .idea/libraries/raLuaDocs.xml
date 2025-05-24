@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="raLuaDocs" type="Lua">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/raLuaDocs" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

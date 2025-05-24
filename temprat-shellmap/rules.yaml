@@ -55,6 +55,11 @@ APC:
 	Cargo:
 		InitialUnits: e1, e1, e2, e3, e4
 
+TRAN:
+	Cargo:
+		InitialUnits: e1, e1, e1, e3, e3, e3, e2, e2
+
+
 Ant:
 	Buildable:
 		Prerequisites: barr
@@ -70,3 +75,7 @@ powerproxy.parazombies:
 	Inherits: powerproxy.paratroopers
 	ParatroopersPower:
 		DropItems: ZOMBIE,ZOMBIE,ZOMBIE,ZOMBIE,ZOMBIE
+		
+powerproxy.parabombs:
+	AirstrikePower:
+		DisplayBeacon: False

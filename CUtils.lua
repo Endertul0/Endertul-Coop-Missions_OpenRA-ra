@@ -14,10 +14,10 @@ end
 
 ---@param playerOwner Player
 ---@param wayointTable table
-ParadropUnits = function(playerOwner, wayointTable)
-    local PowerProxy = Actor.Create(ProxyType, false, { Owner = playerOwner })
+ParadropUnits = function(playerOwner, wayointTable, proxy, angle)
+    local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
     local lz = Utils.Random(wayointTable)
-    PowerProxy.TargetParatroopers(lz.CenterPosition, Angle.East)
+    PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
 end
 
 ---@param playerOwner Player
@@ -25,22 +25,37 @@ end
 ---@param rally Waypoint
 ---@param types table
 ---@param timeInterval int
-SendUnits = function(playerOwner, enter, rally, types, timeInterval)
+---@param repeatAfter int
+SendUnits = function(playerOwner, enter, rally, types, timeInterval, repeatAfter)
+    repeatAfter = repeatAfter or -1
     local units = Reinforcements.Reinforce(playerOwner, types, { enter.Location }, timeInterval)
     Utils.Do(units, function(a)
-        a.AttackMove(rally)
+        a.AttackMove(rally.Location)
     end)
+    if not (repeatAfter == -1) then
+        Trigger.AfterDelay(DateTime.Seconds(repeatAfter), function()
+            SendUnits(playerOwner, enter, rally, types, timeInterval, repeatAfter)
+        end)
+    end
+    return units
 end
 
 ---@param playerOwner Player
+---@param transType string
 ---@param types table
 ---@param enter Waypoint
 ---@param rally Waypoint
 ---@param exit Waypoint
 ---@return unitTable
-SendWaterUnits = function(playerOwner, types, enter, rally, exit)
+SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
     exit = exit or enter
-    local units = Reinforcements.ReinforceWithTransport(playerOwner, "lst",
+    repeatAfter = repeatAfter or -1
+    local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
             types, { enter.Location, rally.Location }, { exit.Location })[2]
+    if not (repeatAfter == -1) then
+        Trigger.AfterDelay(DateTime.Seconds(repeatAfter), function()
+            SendUnits(playerOwner, enter, rally, types, timeInterval, repeatAfter)
+        end)
+    end
     return units
 end

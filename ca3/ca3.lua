@@ -181,6 +181,7 @@ WorldLoaded = function()
             proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthWest)
             proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthWest)
             proxy.Destroy()
+            Media.PlaySound("alert.aud")
         end
     end)
 
