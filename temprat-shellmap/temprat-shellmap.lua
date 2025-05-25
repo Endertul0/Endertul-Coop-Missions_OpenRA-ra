@@ -144,7 +144,7 @@ BindActorTriggers = function(a)
 end
 
 Ticks = 0
-Speed = 3
+Speed = 4
 
 Tick = function()
     Ticks = Ticks + 1
@@ -181,6 +181,8 @@ WorldLoaded = function()
     Spain = Player.GetPlayer("Spain")
 
     SetupFactories()
+
+    Media.FloatingText("By Endertul0", byTextPos.CenterPosition, 210, HSLColor.White)
 
     Utils.Do(ProducedUnitTypes, ProduceUnits)
     Trigger.AfterDelay(DateTime.Seconds(18), function()
