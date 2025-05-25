@@ -28,10 +28,12 @@ World:
         Label: dropdown-difficulty.label
         Description: dropdown-difficulty.description
         Values:
-            easy: options-difficulty.easy
-            normal: options-difficulty.normal
             hard: options-difficulty.hard
-        Default: normal
+            normal: options-difficulty.normal
+            easy: options-difficulty.easy
+            debug: options-difficulty.dbg
+        Default: debug
+        DisplayOrder: 5
     TimeLimitManager:
         TimeLimitLocked: True
 

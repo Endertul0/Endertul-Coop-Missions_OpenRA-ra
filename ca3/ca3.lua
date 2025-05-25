@@ -20,8 +20,6 @@ Syrd1CaptureLoc = CreateCposArray(26, 24, 30, 29)
 LstLZ = CreateCposArray(53, 19, 55, 21)
 BvkDestroyBridge = CreateCposArray(67, 88, 69, 93)
 
-BalatovikHOCams = { bC1, bC2, bC3, bC4, bC5, bC6, bC7 }
-
 PowerGrid = { app1, app2, app3, app4, app5 }
 Syrd1CaptureFlares = { FComFlare1, SyrdFlare1, SyrdFlare2 }
 BalatovikGaurds1 = { bG1, bG2, bG3 }
@@ -36,33 +34,68 @@ bombsAway = false
 ParadropType = "powerproxy.paratroopers"
 ParabombType = "powerproxy.parabombs"
 
--- BEGIN should have in all maps just as a basis
-SupportPowerTargeted = function(SPT_playerOwner, type, points)
-    local PowerProxy = Actor.Create(type, false, { Owner = SPT_playerOwner })
-    local lz = Utils.Random(points)
-    if type == ParadropType then
-        PowerProxy.TargetParatroopers(lz.Location, Angle.East)
-    elseif type == ParabombType then
-        PowerProxy.TargetAirstrike(lz.Location)
+---Create a table full of cpos between (x1, y1) and (x2, y2)
+---@param x1 number
+---@param y1 number
+---@param x2 number
+---@param y2 number
+CreateCposTable = function(x1, y1, x2, y2)
+    local comTable = {}
+    for x = x1, x2 do
+        for y = y1, y2 do
+            table.insert(comTable, CPos.New(x, y))
+        end
     end
-    return lz
+    return comTable
 end
 
-SendUnits = function(SU_playerOwner, enter, rally, types, timeInterval)
-    local units = Reinforcements.Reinforce(SU_playerOwner, types, { enter.Location }, timeInterval)
+---@param playerOwner player
+---@param wayointTable table
+ParadropUnits = function(playerOwner, wayointTable, proxy, angle)
+    local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
+    local lz = Utils.Random(wayointTable)
+    PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
+end
+
+---@param playerOwner player
+---@param enter cpos
+---@param rally cpos
+---@param types table
+---@param timeinterval number
+---@param repeatAfter number
+SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
+    repeatAfter = repeatAfter or -1
+    local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)
     Utils.Do(units, function(a)
         a.AttackMove(rally)
     end)
+    if not (repeatAfter == -1) then
+        Trigger.AfterDelay(DateTime.Seconds(repeatAfter), function()
+            SendUnits(playerOwner, enter, rally, types, timeinterval, repeatAfter)
+        end)
+    end
     return units
 end
 
-SendWaterUnits = function(SWU_playerOwner, types, enter, rally, exit)
+---@param playerOwner player
+---@param transType string
+---@param types table
+---@param enter cpos
+---@param rally cpos
+---@param exit cpos
+---@return table
+SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
     exit = exit or enter
-    local units = Reinforcements.ReinforceWithTransport(SWU_playerOwner, WaterTranStr,
-            types, { enter.Location, rally.Location }, { exit.Location })[2]
+    repeatAfter = repeatAfter or -1
+    local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
+            types, { enter, rally }, { exit })[2]
+    if not (repeatAfter == -1) then
+        Trigger.AfterDelay(DateTime.Seconds(repeatAfter), function()
+            SendTransport(playerOwner, transType, types, enter, rally, exit, repeatAfter)
+        end)
+    end
     return units
 end
--- END should have in all maps just as a basis
 
 MoveAndUnloadTransport = function(trans, pt, outPath)
     trans.UnloadPassengers(pt)
@@ -128,11 +161,9 @@ WorldLoaded = function()
             Camera.Position = BEC1.CenterPosition
             Utils.Do(BalatovikGaurds1, function(a)
                 a.Attack(aagns[1])
-                --Media.DisplayMessage(UserInterface.Translate(""..tostring(a.CanTarget(aagns[1]))), UserInterface.Translate(""..tostring(a)))
             end)
             Utils.Do(BalatovikGaurds2, function(a)
                 a.Attack(aagns[2])
-                --Media.DisplayMessage(UserInterface.Translate(""..tostring(a.CanTarget(aagns[2]))), UserInterface.Translate(""..tostring(a)))
             end)
             Trigger.OnAllKilledOrCaptured(aagns, function(a)
                 EvacuateBalatovik(BEvacTo)
@@ -170,17 +201,12 @@ WorldLoaded = function()
         if not bombsAway then
             bombsAway = true
             local proxy = Actor.Create("powerproxy.parabombs", false, { Owner = Balatovik })
-            proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthEast)
-            proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthEast)
-            proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthEast)
-            proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthEast)
-            proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthEast)
-            proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthWest)
-            proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthWest)
-            proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthWest)
-            proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthWest)
-            proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthWest)
-            proxy.Destroy()
+            for i = 1, 10 do
+                proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthEast)
+            end
+            Trigger.AfterDelay(DateTime.Seconds(3), function()
+                proxy.Destroy()
+            end)
             Media.PlaySound("alert.aud")
         end
     end)

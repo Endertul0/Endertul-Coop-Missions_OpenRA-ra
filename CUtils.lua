@@ -1,7 +1,8 @@
----@param x1 int
----@param y1 int
----@param x2 int
----@param y2 int
+---Create a table full of cpos between (x1, y1) and (x2, y2)
+---@param x1 number
+---@param y1 number
+---@param x2 number
+---@param y2 number
 CreateCposTable = function(x1, y1, x2, y2)
     local comTable = {}
     for x = x1, x2 do
@@ -12,7 +13,7 @@ CreateCposTable = function(x1, y1, x2, y2)
     return comTable
 end
 
----@param playerOwner Player
+---@param playerOwner player
 ---@param wayointTable table
 ParadropUnits = function(playerOwner, wayointTable, proxy, angle)
     local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
@@ -20,41 +21,41 @@ ParadropUnits = function(playerOwner, wayointTable, proxy, angle)
     PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
 end
 
----@param playerOwner Player
----@param enter Waypoint
----@param rally Waypoint
+---@param playerOwner player
+---@param enter cpos
+---@param rally cpos
 ---@param types table
----@param timeInterval int
----@param repeatAfter int
-SendUnits = function(playerOwner, enter, rally, types, timeInterval, repeatAfter)
+---@param timeinterval number
+---@param repeatAfter number
+SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
     repeatAfter = repeatAfter or -1
-    local units = Reinforcements.Reinforce(playerOwner, types, { enter.Location }, timeInterval)
+    local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)
     Utils.Do(units, function(a)
-        a.AttackMove(rally.Location)
+        a.AttackMove(rally)
     end)
     if not (repeatAfter == -1) then
         Trigger.AfterDelay(DateTime.Seconds(repeatAfter), function()
-            SendUnits(playerOwner, enter, rally, types, timeInterval, repeatAfter)
+            SendUnits(playerOwner, enter, rally, types, timeinterval, repeatAfter)
         end)
     end
     return units
 end
 
----@param playerOwner Player
+---@param playerOwner player
 ---@param transType string
 ---@param types table
----@param enter Waypoint
----@param rally Waypoint
----@param exit Waypoint
----@return unitTable
+---@param enter cpos
+---@param rally cpos
+---@param exit cpos
+---@return table
 SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
     exit = exit or enter
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
-            types, { enter.Location, rally.Location }, { exit.Location })[2]
+            types, { enter, rally }, { exit })[2]
     if not (repeatAfter == -1) then
         Trigger.AfterDelay(DateTime.Seconds(repeatAfter), function()
-            SendUnits(playerOwner, enter, rally, types, timeInterval, repeatAfter)
+            SendTransport(playerOwner, transType, types, enter, rally, exit, repeatAfter)
         end)
     end
     return units

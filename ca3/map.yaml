@@ -156,9 +156,11 @@ Actors:
 	Actor20: tsla
 		Owner: USSR
 		Location: 29,54
+		Stance: ReturnFire
 	Actor21: tsla
 		Owner: USSR
 		Location: 29,58
+		Stance: ReturnFire
 	StekObjBuilding: stek
 		Location: 36,74
 		Owner: BalatovikHO
@@ -317,6 +319,144 @@ Actors:
 	BvkBridgeAttack: waypoint
 		Owner: Spain
 		Location: 60,92
+	Actor63: fact
+		Owner: USSR
+		Location: 41,53
+	Actor64: weap
+		Owner: USSR
+		Location: 33,52
+	Actor65: weap
+		Owner: USSR
+		Location: 57,48
+	Actor66: barr
+		Owner: USSR
+		Location: 47,51
+	Actor67: barr
+		Owner: USSR
+		Location: 52,50
+	Actor68: barr
+		Owner: USSR
+		Location: 71,43
+	Actor69: barr
+		Owner: USSR
+		Location: 49,69
+	Actor70: fix
+		Owner: USSR
+		Location: 29,60
+	Actor71: afld
+		Owner: USSR
+		Location: 33,59
+	Actor72: afld
+		Owner: USSR
+		Location: 29,50
+	Actor73: afld
+		Owner: USSR
+		Location: 37,47
+	Actor74: afld
+		Owner: USSR
+		Location: 63,43
+	Actor75: afld
+		Owner: USSR
+		Location: 49,80
+	Actor76: afld
+		Owner: USSR
+		Location: 52,80
+	Actor77: afld
+		Owner: USSR
+		Location: 55,80
+	Actor78: e4
+		Owner: USSR
+		Facing: 384
+		SubCell: 3
+		Location: 63,59
+	Actor79: e4
+		Owner: USSR
+		Facing: 384
+		SubCell: 3
+		Location: 65,59
+	Actor80: e4
+		Owner: USSR
+		Facing: 384
+		SubCell: 3
+		Location: 59,74
+	Actor81: e4
+		Owner: USSR
+		Facing: 384
+		SubCell: 3
+		Location: 61,74
+	Actor82: e4
+		Owner: Balatovik
+		SubCell: 3
+		Facing: 384
+		Location: 54,76
+	Actor83: e4
+		Owner: Balatovik
+		Facing: 384
+		SubCell: 3
+		Location: 54,78
+	Actor84: apwr
+		Owner: Balatovik
+		Location: 26,72
+	Actor85: apwr
+		Owner: Balatovik
+		Location: 29,72
+	Actor86: apwr
+		Owner: Balatovik
+		Location: 28,75
+	Actor87: apwr
+		Owner: Balatovik
+		Location: 31,75
+	Actor88: apwr
+		Owner: Balatovik
+		Location: 29,69
+	Actor89: fcom
+		Owner: Allies
+		Location: 4,62
+	Actor90: miss
+		Owner: Allies
+		Location: 4,55
+	Actor91: apwr
+		Owner: Allies
+		Location: 1,45
+		Health: 43
+	Actor92: apwr
+		Owner: Allies
+		Location: 4,45
+		Health: 1
+	Actor93: apwr
+		Owner: Allies
+		Location: 1,48
+		Health: 31
+	Actor94: apwr
+		Owner: Allies
+		Location: 4,48
+		Health: 29
+	Actor95: proc
+		Owner: Allies
+		Location: 6,62
+	Actor96: tent
+		Owner: Allies
+		Location: 2,58
+	Actor97: atek
+		Owner: Allies
+		Location: 7,58
+	Actor98: powr
+		Owner: Allies
+		Location: 1,67
+		Health: 24
+	Actor99: powr
+		Owner: Allies
+		Location: 3,67
+		Health: 17
+	Actor100: fix
+		Owner: Allies
+		Location: 1,51
+	Actor101: weap
+		Owner: Allies
+		Location: 6,52
+	Actor102: camera
+		Owner: Allies
+		Location: 0,56
 
 Rules: ra|rules/campaign-rules.yaml, ra|rules/campaign-tooltips.yaml, ra|rules/campaign-palettes.yaml, ra|rules/coop-missions-rules.yaml, rules.yaml
 
