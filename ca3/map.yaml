@@ -243,10 +243,6 @@ Actors:
 		SubCell: 3
 		Stance: HoldFire
 		Facing: 384
-	Actor42: tran.husk2
-		Facing: 384
-		Location: 48,89
-		Owner: BalatovikHO
 	BEC1: camera.paradrop
 		Owner: Allies
 		Location: 44,91

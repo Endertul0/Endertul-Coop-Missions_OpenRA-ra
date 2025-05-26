@@ -15,4 +15,5 @@ get-balatovik = Let's go get Balatovik!
 need-spy = Get a spy here.
 come-on = SERIOUSLY?! He's- nope. Nope. He is NOT getting away again! Use these Tesla Cruisers to clear the way for reinforcements.
 chase = Chase Balatovik's helicopter to find his base. Then, destroy it with your Tesla Cruisers.
+options-dbg = Debug Mode
 

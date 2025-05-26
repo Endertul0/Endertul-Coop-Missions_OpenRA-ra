@@ -153,6 +153,15 @@ Tick = function()
     Camera.Position = ViewportOrigin + WVec.New(19200 * math.sin(t), 20480 * math.cos(t), 0)
 end
 
+SetupExistingUnits = function()
+    Utils.Do(Map.ActorsInWorld, function(a)
+        if a.HasProperty("AcceptsCondition") and a.AcceptsCondition("unkillable") then
+            a.GrantCondition("unkillable")
+            a.Stance = "Defend"
+        end
+    end)
+end
+
 ProduceUnits = function(t)
     local factory = t.factory
     if not factory.IsDead then
@@ -181,6 +190,7 @@ WorldLoaded = function()
     Spain = Player.GetPlayer("Spain")
 
     SetupFactories()
+    SetupExistingUnits()
 
     Media.FloatingText("By Endertul0", byTextPos.CenterPosition, 210, HSLColor.White)
 

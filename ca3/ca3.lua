@@ -1,39 +1,3 @@
--- Generates an array (Array = CreateCposArray(x1, y1, x2, y2))
-CreateCposArray = function(x1, y1, x2, y2)
-    local comArray = {}
-    for x = x1, x2 do
-        for y = y1, y2 do
-            table.insert(comArray, CPos.New(x, y))
-        end
-    end
-    return comArray
-end
-
--- Top-level unit name constants
-TanyaStr = "tanya"
-Hint = "hint"
-ChinookStr = "tran"
-WaterTranStr = "lst"
-
-StekCaptureLoc = CreateCposArray(34, 72, 40, 77)
-Syrd1CaptureLoc = CreateCposArray(26, 24, 30, 29)
-LstLZ = CreateCposArray(53, 19, 55, 21)
-BvkDestroyBridge = CreateCposArray(67, 88, 69, 93)
-
-PowerGrid = { app1, app2, app3, app4, app5 }
-Syrd1CaptureFlares = { FComFlare1, SyrdFlare1, SyrdFlare2 }
-BalatovikGaurds1 = { bG1, bG2, bG3 }
-BalatovikGaurds2 = { bG4, bG5, bG6, bG7 }
-BvkAndGuards = { bG1, bG2, bG3, bG4, bG5, bG6, bG7, BvkUnit }
-aagns = { aagn1, aagn2 }
-spiesInLst1 = { false, false }
-producedYet = false
-StekInfiltrated = false
-bombsAway = false
-
-ParadropType = "powerproxy.paratroopers"
-ParabombType = "powerproxy.parabombs"
-
 ---Create a table full of cpos between (x1, y1) and (x2, y2)
 ---@param x1 number
 ---@param y1 number
@@ -50,11 +14,20 @@ CreateCposTable = function(x1, y1, x2, y2)
 end
 
 ---@param playerOwner player
----@param wayointTable table
-ParadropUnits = function(playerOwner, wayointTable, proxy, angle)
+---@param waypointTable table
+Paradrop = function(playerOwner, waypointTable, proxy, angle)
     local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
-    local lz = Utils.Random(wayointTable)
+    local lz = Utils.Random(waypointTable)
     PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
+end
+
+---@param owner player
+---@param proxy string
+---@param pos wpos
+Parabomb = function(owner, proxy, pos, angle)
+    angle = angle or Angle.NorthEast
+    local power = Actor.Create(proxy, false, { Owner = owner })
+    power.TargetAirstrike(pos, angle)
 end
 
 ---@param playerOwner player
@@ -97,6 +70,41 @@ SendTransport = function(playerOwner, transType, types, enter, rally, exit, repe
     return units
 end
 
+-- Top-level unit name constants
+TanyaStr = "tanya"
+Hint = "hint"
+ChinookStr = "tran"
+WaterTranStr = "lst"
+
+LstLZ = CreateCposTable(53, 19, 55, 21)
+BvkDestroyBridge = CreateCposTable(67, 88, 69, 93)
+
+PowerGrid = { app1, app2, app3, app4, app5 }
+Syrd1CaptureFlares = { FComFlare1, SyrdFlare1, SyrdFlare2 }
+BalatovikGaurds1 = { bG1, bG2, bG3 }
+BalatovikGaurds2 = { bG4, bG5, bG6, bG7 }
+BvkAndGuards = { bG1, bG2, bG3, bG4, bG5, bG6, bG7, BvkUnit }
+aagns = { aagn1, aagn2 }
+spiesInLst1 = { false, false }
+producedYet = false
+StekInfiltrated = false
+bombsAway = false
+CamExposer = nil
+
+AllAngles = {
+    Angle.North,
+    Angle.NorthEast,
+    Angle.East,
+    Angle.SouthEast,
+    Angle.South,
+    Angle.SouthWest,
+    Angle.West,
+    Angle.NorthWest
+}
+
+ParadropType = "powerproxy.paratroopers"
+ParabombType = "powerproxy.parabombs"
+
 MoveAndUnloadTransport = function(trans, pt, outPath)
     trans.UnloadPassengers(pt)
     trans.Move(outPath[1].Location)
@@ -117,6 +125,15 @@ EvacuateBalatovik = function(evacTo)
             end
         end)
     end)
+end
+
+Tick = function()
+    if CamExposer ~= nil then
+        local c = Actor.Create("camera.paradrop", true, { Owner = Allies, Location = CamExposer.Location })
+        Trigger.AfterDelay(1, function()
+            c.Destroy()
+        end)
+    end
 end
 
 WorldLoaded = function()
@@ -154,8 +171,8 @@ WorldLoaded = function()
         end)
     end)
 
+    --TODO: Trigger when timer runs out
     Trigger.AfterDelay(DateTime.Seconds(1), function()
-    --Trigger.AfterDelay(DateTime.Seconds(25), function()
         Media.DisplayMessage(UserInterface.Translate("what-that"), UserInterface.Translate(TanyaStr))
         Trigger.AfterDelay(DateTime.Seconds(2), function()
             Camera.Position = BEC1.CenterPosition
@@ -165,6 +182,7 @@ WorldLoaded = function()
             Utils.Do(BalatovikGaurds2, function(a)
                 a.Attack(aagns[2])
             end)
+            CamExposer = BvkUnit
             Trigger.OnAllKilledOrCaptured(aagns, function(a)
                 EvacuateBalatovik(BEvacTo)
                 Media.DisplayMessage(UserInterface.Translate("come-on"), UserInterface.Translate(TanyaStr))
@@ -197,55 +215,38 @@ WorldLoaded = function()
         end)
     end)
 
-    Trigger.OnEnteredFootprint(BvkDestroyBridge, function(unit)
+    Trigger.OnEnteredFootprint(BvkDestroyBridge, function(_)
         if not bombsAway then
             bombsAway = true
-            local proxy = Actor.Create("powerproxy.parabombs", false, { Owner = Balatovik })
-            for i = 1, 10 do
-                proxy.TargetAirstrike(BvkBridgeAttack.CenterPosition, Angle.NorthEast)
+            for i = 1, 11 do
+                Trigger.AfterDelay(Utils.RandomInteger(1, 40), function()
+                    Parabomb(Balatovik, ParabombType, BvkBridgeAttack.CenterPosition, Angle.NorthEast)
+                end)
             end
-            Trigger.AfterDelay(DateTime.Seconds(3), function()
-                proxy.Destroy()
+            local c = Actor.Create("camera.paradrop", true, { Owner = Allies, Location = CamExposer.Location })
+            Trigger.AfterDelay(DateTime.Seconds(4), function()
+                c.Destroy()
             end)
             Media.PlaySound("alert.aud")
         end
     end)
 
-    Trigger.OnEnteredFootprint(StekCaptureLoc, function(unit)
-        if unit == Spy1 or unit == Spy2 and not StekInfiltrated then
+    Trigger.OnInfiltrated(StekObjBuilding, function(self, unit)
+        if not StekInfiltrated then
             StekInfiltrated = true
             Utils.Do(Humans, function(player)
                 player.MarkCompletedObjective(InfiltrateStekObj)
             end)
             Media.DisplayMessage(UserInterface.Translate("get-balatovik"), UserInterface.Translate(TanyaStr))
-            Camera.Position = BalatovFlare.CenterPosition
+            Camera.Position = BvkUnit.CenterPosition
 
-            local USSRbldgs = Utils.Where(Map.ActorsInWorld, function(self)
-                return self.Owner == USSR and self.HasProperty("StartBuildingRepairs")
+            local USSRBldgs = Utils.Where(Map.ActorsInWorld, function(bdg)
+                return bdg.Owner == USSR and bdg.HasProperty("StartBuildingRepairs")
             end)
-            Utils.Do(USSRbldgs, function(a)
-                --SupportPowerTargeted(Allies, ParabombType, { a })
+            Utils.Do(USSRBldgs, function(a)
+                local bombAngle = Utils.Random(AllAngles)
+                Parabomb(Allies, ParabombType, a.CenterPosition, bombAngle)
             end)
-        else
-            if unit.Owner == Allies1 or unit.Owner == Allies2 then
-                Media.DisplayMessage(UserInterface.Translate("get-spy"), UserInterface.Translate(Hint))
-            end
-        end
-    end)
-
-    Trigger.OnEnteredFootprint(Syrd1CaptureLoc, function(unit)
-        if unit == Spy1 or unit == Spy2 then
-            if Allies1.IsObjectiveCompleted(InfiltrateStekObj) and not producedYet then
-                producedYet = true
-                Trigger.AfterDelay(DateTime.Seconds(1), function()
-                    Media.DisplayMessage(UserInterface.Translate("make-cruiser"), UserInterface.Translate(TanyaStr))
-                    Trigger.AfterDelay(DateTime.Seconds(1), function()
-                        Media.DisplayMessage(UserInterface.Translate("made-cruiser"), UserInterface.Translate(TanyaStr))
-                    end)
-                end)
-            else
-                Media.DisplayMessage(UserInterface.Translate("stek-first"), UserInterface.Translate(TanyaStr))
-            end
         end
     end)
 
@@ -265,7 +266,7 @@ WorldLoaded = function()
         end
         Trigger.AfterDelay(DateTime.Seconds(2), function()
             if spiesInLst1[1] and spiesInLst1[2] then
-                MoveAndUnloadTransport(SpyLst1, UnloadPoint1.Location, {WE1, WE2, WE3, WE4, WEE})
+                MoveAndUnloadTransport(SpyLst1, UnloadPoint1.Location, { WE1, WE2, WE3, WE4, WEE })
                 Utils.Do(Humans, function(player)
                     player.MarkCompletedObjective(LstFlareObj)
                 end)
@@ -274,5 +275,4 @@ WorldLoaded = function()
     end)
 
 
-    
 end

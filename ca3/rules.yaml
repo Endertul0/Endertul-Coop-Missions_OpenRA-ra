@@ -1,6 +1,6 @@
 Player:
     PlayerResources:
-        DefaultCash: 20012
+        DefaultCash: 50000
 
 World:
     WeatherOverlay:
@@ -20,7 +20,7 @@ World:
         Blue: 0.35
         Ambient: 3
     MissionData:
-        Briefing: A Soviet Tech Center has been located. Infiltrate the center and eliminate Balatovik. He must not escape!
+        Briefing: Balatovik's transport has been shot down! Get your spy to the Tech Center, before he escapes, to disable his transport capabilities.
     LuaScript:
         Scripts: campaign.lua, utils.lua, ca3.lua
     ScriptLobbyDropdown@difficulty:
@@ -31,8 +31,7 @@ World:
             hard: options-difficulty.hard
             normal: options-difficulty.normal
             easy: options-difficulty.easy
-            debug: options-difficulty.dbg
-        Default: debug
+        Default: normal
         DisplayOrder: 5
     TimeLimitManager:
         TimeLimitLocked: True
@@ -161,6 +160,8 @@ TCA:
         Speed: 125
     RenderSprites:
         Image: tca
+    RevealsShroud:
+        Range: 7c0
     Armament@PRIMARY:
         Weapon: LongTesla
     Armament@SECONDARY:
@@ -202,6 +203,21 @@ STEK:
         TargetTypes: GroundActor, C4, DetonateAttack, Structure, MissionObjective, NoAutoTarget
     Buildable:
         Prerequisites: ~disabled
+        
+TRAN:
+    Contrail@1:
+        Offset: -598,-683,0
+        StartColorAlpha: 128
+    Contrail@2:
+        Offset: -598,683,0
+        StartColorAlpha: 128
+    LeavesTrails:
+        Offsets: -853,0,171
+        MovingInterval: 2
+        Image: smokey
+        SpawnAtLastPosition: False
+        Type: CenterPosition
+        RequiresCondition: enable-smoke
         
 CA:
     Buildable:
