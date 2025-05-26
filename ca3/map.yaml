@@ -195,12 +195,6 @@ Actors:
 		Owner: Balatovik
 		Location: 48,76
 		Stance: HoldFire
-	BvkUnit: balatovik
-		SubCell: 3
-		Location: 52,90
-		Stance: HoldFire
-		Owner: BalatovikHO
-		Facing: 539
 	bG1: e4
 		Owner: BalatovikHO
 		SubCell: 3
@@ -243,38 +237,10 @@ Actors:
 		SubCell: 3
 		Stance: HoldFire
 		Facing: 384
-	BEC1: camera.paradrop
-		Owner: Allies
-		Location: 44,91
 	BEvacTo: waypoint
 		Faction: allies
 		Location: 95,90
 		Owner: BalatovikHO
-	GuardLoc: waypoint
-		Faction: allies
-		Location: 95,86
-		Owner: BalatovikHO
-	bC1: camera
-		Owner: BalatovikHO
-		Location: 92,64
-	bC2: camera
-		Owner: BalatovikHO
-		Location: 92,75
-	bC5: camera
-		Owner: BalatovikHO
-		Location: 92,86
-	bC7: camera
-		Owner: BalatovikHO
-		Location: 92,95
-	bC6: camera
-		Owner: BalatovikHO
-		Location: 82,95
-	bC4: camera
-		Owner: BalatovikHO
-		Location: 82,86
-	bC3: camera
-		Owner: BalatovikHO
-		Location: 82,75
 	WE1: waypoint
 		Location: 52,32
 		Owner: Allies
@@ -299,22 +265,6 @@ Actors:
 		Owner: Allies
 		Location: 45,92
 		TurretFacing: 697
-	aagn2: agun
-		Owner: Allies
-		Location: 50,92
-		TurretFacing: 713
-	BEC3: camera.paradrop
-		Owner: Neutral
-		Location: 59,92
-	BEC4: camera.paradrop
-		Owner: Neutral
-		Location: 70,91
-	BEC2: camera.paradrop
-		Owner: Neutral
-		Location: 51,93
-	BvkBridgeAttack: waypoint
-		Owner: Spain
-		Location: 60,92
 	Actor63: fact
 		Owner: USSR
 		Location: 41,53
@@ -351,15 +301,6 @@ Actors:
 	Actor74: afld
 		Owner: USSR
 		Location: 63,43
-	Actor75: afld
-		Owner: USSR
-		Location: 49,80
-	Actor76: afld
-		Owner: USSR
-		Location: 52,80
-	Actor77: afld
-		Owner: USSR
-		Location: 55,80
 	Actor78: e4
 		Owner: USSR
 		Facing: 384
@@ -380,31 +321,21 @@ Actors:
 		Facing: 384
 		SubCell: 3
 		Location: 61,74
-	Actor82: e4
-		Owner: Balatovik
-		SubCell: 3
-		Facing: 384
-		Location: 54,76
-	Actor83: e4
-		Owner: Balatovik
-		Facing: 384
-		SubCell: 3
-		Location: 54,78
 	Actor84: apwr
-		Owner: Balatovik
 		Location: 26,72
+		Owner: BalatovikHO
 	Actor85: apwr
-		Owner: Balatovik
 		Location: 29,72
+		Owner: BalatovikHO
 	Actor86: apwr
-		Owner: Balatovik
 		Location: 28,75
+		Owner: BalatovikHO
 	Actor87: apwr
-		Owner: Balatovik
 		Location: 31,75
+		Owner: BalatovikHO
 	Actor88: apwr
-		Owner: Balatovik
 		Location: 29,69
+		Owner: BalatovikHO
 	Actor89: fcom
 		Owner: Allies
 		Location: 4,62
@@ -453,6 +384,439 @@ Actors:
 	Actor102: camera
 		Owner: Allies
 		Location: 0,56
+	BalatovikChaseLand: waypoint
+		Location: 41,90
+		Owner: Allies
+	BalatovikChaseEnter: waypoint
+		Location: 23,96
+		Owner: Allies
+	Actor103: mine
+		Owner: Neutral
+		Location: 2,23
+	Actor104: mine
+		Owner: Neutral
+		Location: 17,2
+	Actor105: gmine
+		Owner: Neutral
+		Location: 35,3
+	Actor106: gmine
+		Owner: Neutral
+		Location: 12,25
+	Actor107: brik
+		Owner: BalatovikHO
+		Location: 65,16
+	Actor108: brik
+		Owner: BalatovikHO
+		Location: 65,15
+	Actor109: brik
+		Owner: BalatovikHO
+		Location: 65,14
+	Actor110: brik
+		Owner: BalatovikHO
+		Location: 65,13
+	Actor111: brik
+		Owner: BalatovikHO
+		Location: 64,13
+	Actor112: brik
+		Owner: BalatovikHO
+		Location: 63,13
+	Actor113: brik
+		Owner: BalatovikHO
+		Location: 55,13
+	Actor114: brik
+		Owner: BalatovikHO
+		Location: 55,12
+	Actor115: brik
+		Owner: BalatovikHO
+		Location: 55,11
+	Actor116: brik
+		Owner: BalatovikHO
+		Location: 56,11
+	Actor118: brik
+		Owner: BalatovikHO
+		Location: 56,13
+	Actor119: brik
+		Owner: BalatovikHO
+		Location: 57,13
+	Actor120: brik
+		Owner: BalatovikHO
+		Location: 59,13
+	Actor121: brik
+		Owner: BalatovikHO
+		Location: 60,13
+	Actor122: brik
+		Owner: BalatovikHO
+		Location: 61,13
+	Actor123: brik
+		Owner: BalatovikHO
+		Location: 62,13
+	Actor124: brik
+		Owner: BalatovikHO
+		Location: 58,13
+	Actor125: brik
+		Owner: BalatovikHO
+		Location: 56,9
+	Actor126: brik
+		Owner: BalatovikHO
+		Location: 55,9
+	Actor127: brik
+		Owner: BalatovikHO
+		Location: 55,8
+	Actor128: brik
+		Owner: BalatovikHO
+		Location: 55,7
+	Actor129: brik
+		Owner: BalatovikHO
+		Location: 55,6
+	Actor130: brik
+		Owner: BalatovikHO
+		Location: 55,5
+	Actor131: brik
+		Owner: BalatovikHO
+		Location: 55,4
+	Actor132: brik
+		Owner: BalatovikHO
+		Location: 55,3
+	Actor133: brik
+		Owner: BalatovikHO
+		Location: 55,2
+	Actor134: brik
+		Owner: BalatovikHO
+		Location: 55,1
+	Actor135: brik
+		Owner: BalatovikHO
+		Location: 55,0
+	Actor136: brik
+		Owner: BalatovikHO
+		Location: 66,16
+	Actor137: brik
+		Owner: BalatovikHO
+		Location: 67,16
+	Actor138: brik
+		Owner: BalatovikHO
+		Location: 67,15
+	Actor139: brik
+		Owner: BalatovikHO
+		Location: 68,15
+	Actor140: brik
+		Owner: BalatovikHO
+		Location: 69,15
+	Actor141: brik
+		Owner: BalatovikHO
+		Location: 70,15
+	Actor142: brik
+		Owner: BalatovikHO
+		Location: 71,15
+	Actor143: brik
+		Owner: BalatovikHO
+		Location: 72,15
+	Actor144: brik
+		Owner: BalatovikHO
+		Location: 73,15
+	Actor145: brik
+		Owner: BalatovikHO
+		Location: 74,15
+	Actor146: brik
+		Owner: BalatovikHO
+		Location: 75,15
+	Actor147: brik
+		Owner: BalatovikHO
+		Location: 76,15
+	Actor148: brik
+		Owner: BalatovikHO
+		Location: 77,15
+	Actor149: brik
+		Owner: BalatovikHO
+		Location: 77,14
+	Actor150: brik
+		Owner: BalatovikHO
+		Location: 77,13
+	Actor151: brik
+		Owner: BalatovikHO
+		Location: 78,13
+	Actor152: brik
+		Owner: BalatovikHO
+		Location: 78,12
+	Actor153: brik
+		Owner: BalatovikHO
+		Location: 78,11
+	Actor154: brik
+		Owner: BalatovikHO
+		Location: 78,10
+	Actor155: brik
+		Owner: BalatovikHO
+		Location: 78,9
+	Actor156: brik
+		Owner: BalatovikHO
+		Location: 78,8
+	Actor157: brik
+		Owner: BalatovikHO
+		Location: 78,7
+	Actor158: brik
+		Owner: BalatovikHO
+		Location: 79,7
+	Actor159: brik
+		Owner: BalatovikHO
+		Location: 79,6
+	Actor160: brik
+		Owner: BalatovikHO
+		Location: 79,5
+	Actor161: brik
+		Owner: BalatovikHO
+		Location: 79,4
+	Actor163: brik
+		Owner: BalatovikHO
+		Location: 57,11
+	Actor164: brik
+		Owner: BalatovikHO
+		Location: 57,12
+	Actor165: brik
+		Owner: BalatovikHO
+		Location: 57,9
+	Actor166: brik
+		Owner: BalatovikHO
+		Location: 57,8
+	Actor167: brik
+		Owner: BalatovikHO
+		Location: 57,7
+	Actor168: brik
+		Owner: BalatovikHO
+		Location: 56,7
+	Actor177: brik
+		Owner: BalatovikHO
+		Location: 79,1
+	Actor178: brik
+		Owner: BalatovikHO
+		Location: 79,0
+	b26: afld
+		Location: 68,9
+		Owner: Balatovik
+	b24: weap
+		Location: 68,1
+		Owner: Balatovik
+	b23: barr
+		Location: 64,1
+		Owner: Balatovik
+	b25: proc
+		Location: 72,4
+		Owner: Balatovik
+	Actor184: gmine
+		Owner: Neutral
+		Location: 76,12
+	Actor185: silo
+		Location: 70,11
+		Owner: Balatovik
+	Actor186: silo
+		Location: 71,11
+		Owner: Balatovik
+	Actor187: silo
+		Location: 71,10
+		Owner: Balatovik
+	Actor189: dome
+		Owner: BalatovikHO
+		Location: 93,92
+	b20: spen
+		Owner: Balatovik
+		Location: 74,82
+	b3: spen
+		Owner: Balatovik
+		Location: 82,59
+	b1: spen
+		Owner: Balatovik
+		Location: 90,55
+	b6: weap
+		Owner: Balatovik
+		Location: 89,62
+	b2: agun.lr
+		Owner: Balatovik
+		Location: 95,60
+		TurretFacing: 0
+	b4: agun.lr
+		Owner: Balatovik
+		Location: 88,61
+		TurretFacing: 118
+	b22: agun.lr
+		Owner: Balatovik
+		Location: 74,90
+		TurretFacing: 0
+	b7: sam
+		Owner: Balatovik
+		Location: 86,65
+		TurretFacing: 198
+	b5: sam
+		Owner: Balatovik
+		Location: 91,61
+		TurretFacing: 55
+	b27: tsla
+		Owner: Balatovik
+		Location: 56,8
+	b28: tsla
+		Owner: Balatovik
+		Location: 56,12
+	b29: apwr
+		Owner: Balatovik
+		Location: 56,2
+	b31: powr
+		Owner: Balatovik
+		Location: 74,1
+	b30: apwr
+		Faction: allies
+		Location: 63,10
+		Owner: Balatovik
+	c1: camera
+		Location: 91,65
+		Owner: Neutral
+	c4: camera
+		Location: 91,90
+		Owner: Neutral
+	c5: camera
+		Location: 81,90
+		Owner: Neutral
+	Actor82: e4
+		Owner: Balatovik
+		SubCell: 3
+		Facing: 384
+		Location: 54,76
+	Actor83: e4
+		Owner: Balatovik
+		Facing: 384
+		SubCell: 3
+		Location: 54,78
+	Actor75: afld
+		Owner: USSR
+		Location: 49,80
+	Actor76: afld
+		Owner: USSR
+		Location: 52,80
+	Actor77: afld
+		Owner: USSR
+		Location: 55,80
+	BvkUnit: balatovik
+		SubCell: 3
+		Location: 52,90
+		Stance: HoldFire
+		Owner: BalatovikHO
+		Facing: 539
+	aagn2: agun
+		Owner: Allies
+		Location: 50,92
+		TurretFacing: 713
+	BvkBridgeAttack: waypoint
+		Location: 60,92
+		Faction: spain
+		Owner: Balatovik
+	InsertionLand: waypoint
+		Owner: Allies
+		Location: 67,93
+	InsertionEnter: waypoint
+		Owner: Allies
+		Location: 67,96
+	b9: spen
+		Owner: Balatovik
+		Location: 81,67
+	b8: afld
+		Owner: Balatovik
+		Location: 89,67
+	b10: agun.lr
+		Owner: Balatovik
+		Location: 86,68
+		TurretFacing: 229
+	b11: kenn
+		Owner: Balatovik
+		Location: 87,70
+	b12: fix
+		Owner: Balatovik
+		Location: 88,71
+	b14: spen
+		Owner: Balatovik
+		Location: 78,74
+	b13: afld
+		Owner: Balatovik
+		Location: 87,74
+	Actor190: proc
+		Owner: BalatovikHO
+		Location: 94,74
+	c2: camera
+		Location: 89,75
+		Owner: Neutral
+	b15: agun.lr
+		Owner: Balatovik
+		Location: 86,77
+		TurretFacing: 166
+	b16: miss
+		Owner: Balatovik
+		Location: 88,77
+	b19: barr
+		Owner: Balatovik
+		Location: 85,78
+	b17: agun.lr
+		Owner: Balatovik
+		Location: 80,79
+		TurretFacing: 959
+	b18: sam
+		Owner: Balatovik
+		Location: 83,79
+		TurretFacing: 111
+	Actor191: silo
+		Owner: BalatovikHO
+		Location: 84,83
+	Actor192: silo
+		Owner: BalatovikHO
+		Location: 85,83
+	Actor193: silo
+		Owner: BalatovikHO
+		Location: 86,83
+	Actor194: silo
+		Owner: BalatovikHO
+		Location: 87,83
+	Actor202: silo
+		Owner: BalatovikHO
+		Location: 84,84
+	Actor201: silo
+		Owner: BalatovikHO
+		Location: 85,84
+	Actor200: silo
+		Owner: BalatovikHO
+		Location: 86,84
+	Actor199: silo
+		Owner: BalatovikHO
+		Location: 87,84
+	Actor195: gmine
+		Owner: Neutral
+		Faction: soviet
+		Location: 95,84
+	b21: sam
+		Owner: Balatovik
+		Location: 78,86
+		TurretFacing: 142
+	Actor188: fact
+		Owner: BalatovikHO
+		Location: 88,88
+	c3: camera
+		Location: 84,82
+		Owner: Neutral
+	GuardLoc: waypoint
+		Faction: allies
+		Location: 86,87
+		Owner: BalatovikHO
+	c6: camera
+		Owner: Neutral
+		Location: 59,3
+	c9: camera
+		Owner: Neutral
+		Location: 59,11
+	c10: camera
+		Owner: Neutral
+		Location: 69,11
+	c7: camera
+		Owner: Neutral
+		Location: 69,3
+	c8: camera
+		Owner: Neutral
+		Location: 79,3
+	c11: camera
+		Owner: Neutral
+		Location: 79,11
 
 Rules: ra|rules/campaign-rules.yaml, ra|rules/campaign-tooltips.yaml, ra|rules/campaign-palettes.yaml, ra|rules/coop-missions-rules.yaml, rules.yaml
 

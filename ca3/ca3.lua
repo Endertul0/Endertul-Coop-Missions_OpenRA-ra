@@ -78,12 +78,17 @@ WaterTranStr = "lst"
 
 LstLZ = CreateCposTable(53, 19, 55, 21)
 BvkDestroyBridge = CreateCposTable(67, 88, 69, 93)
+JoinChaseArea = CreateCposTable(58, 89, 62, 89)
 
 PowerGrid = { app1, app2, app3, app4, app5 }
 Syrd1CaptureFlares = { FComFlare1, SyrdFlare1, SyrdFlare2 }
 BalatovikGaurds1 = { bG1, bG2, bG3 }
 BalatovikGaurds2 = { bG4, bG5, bG6, bG7 }
 BvkAndGuards = { bG1, bG2, bG3, bG4, bG5, bG6, bG7, BvkUnit }
+BvkBaseLarge = { b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22 }
+BvkBaseSmall = { b23, b24, b25, b26, b27, b28, b29, b30, b31 }
+BvkBaseLargeCams = { c1, c2, c3, c4, c5 }
+BvkBaseSmallCams = { c6, c7, c8, c9, c10, c11 }
 aagns = { aagn1, aagn2 }
 spiesInLst1 = { false, false }
 producedYet = false
@@ -117,15 +122,18 @@ end
 
 EvacuateBalatovik = function(evacTo)
     Utils.Do(BvkAndGuards, function(a)
-        a.Move(BvkBridgeAttack.Location)
-        Trigger.AfterDelay(DateTime.Seconds(11), function()
-            a.Move(BEvacTo.Location)
-            if not (a == Map.NamedActor("BvkUnit")) then
-                a.Move(GuardLoc.Location)
-            end
-        end)
+        a.Move(BEvacTo.Location)
+        if not (a == Map.NamedActor("BvkUnit")) then
+            a.Move(CPos.New(81, 95))
+        end
     end)
 end
+
+StartTimer = false
+TimerColor = Player.GetPlayer("USSR").Color
+EndTimerColor = Player.GetPlayer("Spain").Color
+TimerTicks = DateTime.Minutes(1)
+Ticked = TimerTicks
 
 Tick = function()
     if CamExposer ~= nil then
@@ -133,6 +141,21 @@ Tick = function()
         Trigger.AfterDelay(1, function()
             c.Destroy()
         end)
+    end
+
+    if StartTimer then
+        if Ticked > 0 then
+            if (Ticked % DateTime.Seconds(1)) == 0 then
+                Timer = UserInterface.Translate("enemy-trans-arrive", { ["time"] = Utils.FormatTime(Ticked) })
+                UserInterface.SetMissionText(Timer, TimerColor)
+            end
+            Ticked = Ticked - 1
+        elseif Ticked == 0 then
+
+            Timer = UserInterface.Translate("enemy-trans-arrived")
+            UserInterface.SetMissionText(Timer, EndTimerColor)
+            Ticked = Ticked - 1
+        end
     end
 end
 
@@ -158,6 +181,7 @@ WorldLoaded = function()
         if player then
             InfiltrateStekObj = AddPrimaryObjective(player, "infiltrate-stek")
             EliminateBalatovikObj = AddPrimaryObjective(player, "eliminate-balatovik")
+            DestroyBasesObj = AddPrimaryObjective(player, "destroy-bases")
             LstFlareObj = AddSecondaryObjective(player, "get-flare")
             PowerGridObj = AddSecondaryObjective(player, "power-down")
         end
@@ -175,7 +199,7 @@ WorldLoaded = function()
     Trigger.AfterDelay(DateTime.Seconds(1), function()
         Media.DisplayMessage(UserInterface.Translate("what-that"), UserInterface.Translate(TanyaStr))
         Trigger.AfterDelay(DateTime.Seconds(2), function()
-            Camera.Position = BEC1.CenterPosition
+            Camera.Position = aagn1.CenterPosition
             Utils.Do(BalatovikGaurds1, function(a)
                 a.Attack(aagns[1])
             end)
@@ -183,9 +207,18 @@ WorldLoaded = function()
                 a.Attack(aagns[2])
             end)
             CamExposer = BvkUnit
-            Trigger.OnAllKilledOrCaptured(aagns, function(a)
+            Trigger.OnAllKilledOrCaptured(aagns, function()
                 EvacuateBalatovik(BEvacTo)
+                local alliesTranUnits = SendTransport(Allies, "lst", { "e1", "e1", "e1", "e3", "e3", "e2" },
+                        BalatovikChaseEnter.Location, BalatovikChaseLand.Location, BalatovikChaseEnter.Location)
+                Trigger.AfterDelay(DateTime.Seconds(8), function()
+                    Utils.Do(alliesTranUnits, function(a)
+                        a.AttackMove(CPos.New(68, 90))
+                    end)
+                end)
+
                 Media.DisplayMessage(UserInterface.Translate("come-on"), UserInterface.Translate(TanyaStr))
+
                 Utils.Do(Syrd1CaptureFlares, function(a)
                     a.Destroy()
                 end)
@@ -193,11 +226,11 @@ WorldLoaded = function()
                     Media.PlaySpeechNotification(player, "BuildingInfiltrated")
                 end)
                 SyrdFcom1.Owner = Allies
-                Camera.Position = SyrdFcom1.CenterPosition
                 Syrd1.Owner = Allies1
                 Syrd2.Owner = Allies2
                 Syrd1.Produce("tca")
                 Syrd2.Produce("tca")
+
                 Media.DisplayMessage(UserInterface.Translate("chase"), UserInterface.Translate(Hint))
             end)
         end)
@@ -219,12 +252,14 @@ WorldLoaded = function()
         if not bombsAway then
             bombsAway = true
             for i = 1, 11 do
-                Trigger.AfterDelay(Utils.RandomInteger(1, 40), function()
+                Trigger.AfterDelay(Utils.RandomInteger(0, 60), function()
                     Parabomb(Balatovik, ParabombType, BvkBridgeAttack.CenterPosition, Angle.NorthEast)
                 end)
             end
-            local c = Actor.Create("camera.paradrop", true, { Owner = Allies, Location = CamExposer.Location })
-            Trigger.AfterDelay(DateTime.Seconds(4), function()
+            SendUnits(Allies, CPos.New(57, 96), BvkUnit.Location,
+                    { "e1", "e1", "e1", "e3", "e3", "e2" }, 0, -1)
+            local c = Actor.Create("camera.paradrop", true, { Owner = Allies, Location = BvkBridgeAttack.Location })
+            Trigger.AfterDelay(DateTime.Seconds(10), function()
                 c.Destroy()
             end)
             Media.PlaySound("alert.aud")
@@ -274,5 +309,9 @@ WorldLoaded = function()
         end)
     end)
 
-
+    Trigger.OnAllKilled(Utils.Concat(BvkBaseLarge, BvkBaseSmall), function()
+        Utils.Do(Humans, function(player)
+            player.MarkCompletedObjective(DestroyBasesObj)
+        end)
+    end)
 end
