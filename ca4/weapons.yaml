@@ -1,0 +1,12 @@
+
+LongTesla:
+    Inherits: TeslaZap
+    Range: 7c0
+
+8InchShort:
+    Inherits: 8Inch
+    Range: 722c0
+    MinRange: 0c0
+    Burst: 240
+    BurstDelays: 0
+    ReloadDelay: 75
