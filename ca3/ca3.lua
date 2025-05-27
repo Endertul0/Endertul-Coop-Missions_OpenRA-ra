@@ -124,16 +124,18 @@ EvacuateBalatovik = function(evacTo)
     Utils.Do(BvkAndGuards, function(a)
         a.Move(BEvacTo.Location)
         if not (a == Map.NamedActor("BvkUnit")) then
-            a.Move(CPos.New(81, 95))
+            a.Move(GuardLoc.Location)
         end
+        Trigger.AfterDelay(DateTime.Seconds(15), function()
+            Utils.Do(Utils.Concat(BvkBaseLargeCams, BvkBaseSmallCams), function(camera)
+                Trigger.AfterDelay(Utils.RandomInteger(0, 35), function()
+                    camera.Owner = Allies
+                end)
+            end)
+            CamExposer = nil
+        end)
     end)
 end
-
-StartTimer = false
-TimerColor = Player.GetPlayer("USSR").Color
-EndTimerColor = Player.GetPlayer("Spain").Color
-TimerTicks = DateTime.Minutes(1)
-Ticked = TimerTicks
 
 Tick = function()
     if CamExposer ~= nil then
@@ -141,21 +143,6 @@ Tick = function()
         Trigger.AfterDelay(1, function()
             c.Destroy()
         end)
-    end
-
-    if StartTimer then
-        if Ticked > 0 then
-            if (Ticked % DateTime.Seconds(1)) == 0 then
-                Timer = UserInterface.Translate("enemy-trans-arrive", { ["time"] = Utils.FormatTime(Ticked) })
-                UserInterface.SetMissionText(Timer, TimerColor)
-            end
-            Ticked = Ticked - 1
-        elseif Ticked == 0 then
-
-            Timer = UserInterface.Translate("enemy-trans-arrived")
-            UserInterface.SetMissionText(Timer, EndTimerColor)
-            Ticked = Ticked - 1
-        end
     end
 end
 
@@ -177,6 +164,7 @@ WorldLoaded = function()
     Camera.Position = HeliFlare.CenterPosition
     InitObjectives(Allies1)
 
+    -- Setup objectives
     Utils.Do(Humans, function(player)
         if player then
             InfiltrateStekObj = AddPrimaryObjective(player, "infiltrate-stek")
@@ -195,59 +183,21 @@ WorldLoaded = function()
         end)
     end)
 
-    --TODO: Trigger when timer runs out
-    Trigger.AfterDelay(DateTime.Seconds(1), function()
-        Media.DisplayMessage(UserInterface.Translate("what-that"), UserInterface.Translate(TanyaStr))
-        Trigger.AfterDelay(DateTime.Seconds(2), function()
-            Camera.Position = aagn1.CenterPosition
-            Utils.Do(BalatovikGaurds1, function(a)
-                a.Attack(aagns[1])
-            end)
-            Utils.Do(BalatovikGaurds2, function(a)
-                a.Attack(aagns[2])
-            end)
-            CamExposer = BvkUnit
-            Trigger.OnAllKilledOrCaptured(aagns, function()
-                EvacuateBalatovik(BEvacTo)
-                local alliesTranUnits = SendTransport(Allies, "lst", { "e1", "e1", "e1", "e3", "e3", "e2" },
-                        BalatovikChaseEnter.Location, BalatovikChaseLand.Location, BalatovikChaseEnter.Location)
-                Trigger.AfterDelay(DateTime.Seconds(8), function()
-                    Utils.Do(alliesTranUnits, function(a)
-                        a.AttackMove(CPos.New(68, 90))
-                    end)
-                end)
-
-                Media.DisplayMessage(UserInterface.Translate("come-on"), UserInterface.Translate(TanyaStr))
-
-                Utils.Do(Syrd1CaptureFlares, function(a)
-                    a.Destroy()
-                end)
-                Utils.Do(Humans, function(player)
-                    Media.PlaySpeechNotification(player, "BuildingInfiltrated")
-                end)
-                SyrdFcom1.Owner = Allies
-                Syrd1.Owner = Allies1
-                Syrd2.Owner = Allies2
-                Syrd1.Produce("tca")
-                Syrd2.Produce("tca")
-
-                Media.DisplayMessage(UserInterface.Translate("chase"), UserInterface.Translate(Hint))
-            end)
-        end)
-    end)
-
+    -- Complete obj on all killed
     Trigger.OnAllKilledOrCaptured(PowerGrid, function()
         Utils.Do(Humans, function(player)
             player.MarkCompletedObjective(PowerGridObj)
         end)
     end)
 
+    -- Fail obj on killed
     Trigger.OnKilled(StekObjBuilding, function()
         Utils.Do(Humans, function(player)
             player.MarkFailedObjective(InfiltrateStekObj)
         end)
     end)
 
+    -- When bvk + guards go to brdge proximity trigger
     Trigger.OnEnteredFootprint(BvkDestroyBridge, function(_)
         if not bombsAway then
             bombsAway = true
@@ -266,13 +216,13 @@ WorldLoaded = function()
         end
     end)
 
+    -- When spy infiltrates stek, start bvk escape
     Trigger.OnInfiltrated(StekObjBuilding, function(self, unit)
         if not StekInfiltrated then
             StekInfiltrated = true
             Utils.Do(Humans, function(player)
                 player.MarkCompletedObjective(InfiltrateStekObj)
             end)
-            Media.DisplayMessage(UserInterface.Translate("get-balatovik"), UserInterface.Translate(TanyaStr))
             Camera.Position = BvkUnit.CenterPosition
 
             local USSRBldgs = Utils.Where(Map.ActorsInWorld, function(bdg)
@@ -282,9 +232,47 @@ WorldLoaded = function()
                 local bombAngle = Utils.Random(AllAngles)
                 Parabomb(Allies, ParabombType, a.CenterPosition, bombAngle)
             end)
+            Media.DisplayMessage(UserInterface.Translate("what-that"), UserInterface.Translate(TanyaStr))
+            Trigger.AfterDelay(DateTime.Seconds(2), function()
+                Camera.Position = aagn1.CenterPosition
+                Utils.Do(BalatovikGaurds1, function(a)
+                    a.Attack(aagns[1])
+                end)
+                Utils.Do(BalatovikGaurds2, function(a)
+                    a.Attack(aagns[2])
+                end)
+                CamExposer = BvkUnit
+                Trigger.OnAllKilledOrCaptured(aagns, function()
+                    EvacuateBalatovik(BEvacTo)
+                    local alliesTranUnits = SendTransport(Allies, "lst", { "e1", "e1", "e1", "e3", "e3", "e2" },
+                            BalatovikChaseEnter.Location, BalatovikChaseLand.Location, BalatovikChaseEnter.Location)
+                    Trigger.AfterDelay(DateTime.Seconds(8), function()
+                        Utils.Do(alliesTranUnits, function(a)
+                            a.AttackMove(CPos.New(68, 90))
+                        end)
+                    end)
+
+                    Media.DisplayMessage(UserInterface.Translate("come-on"), UserInterface.Translate(TanyaStr))
+
+                    Utils.Do(Syrd1CaptureFlares, function(a)
+                        a.Destroy()
+                    end)
+                    Utils.Do(Humans, function(player)
+                        Media.PlaySpeechNotification(player, "BuildingInfiltrated")
+                    end)
+                    SyrdFcom1.Owner = Allies
+                    Syrd1.Owner = Allies1
+                    Syrd2.Owner = Allies2
+                    Syrd1.Produce("tca")
+                    Syrd2.Produce("tca")
+
+                    Media.DisplayMessage(UserInterface.Translate("chase"), UserInterface.Translate(Hint))
+                end)
+            end)
         end
     end)
 
+    -- When spy gets to landing zone
     Trigger.OnEnteredFootprint(LstLZ, function(unit)
         if unit == Spy1 then
             unit.Stop()
@@ -309,9 +297,39 @@ WorldLoaded = function()
         end)
     end)
 
-    Trigger.OnAllKilled(Utils.Concat(BvkBaseLarge, BvkBaseSmall), function()
+    -- On large base killed
+    Trigger.OnAllKilled(BvkBaseLarge, function()
         Utils.Do(Humans, function(player)
             player.MarkCompletedObjective(DestroyBasesObj)
+        end)
+        Camera.Position = SBSAR1.CenterPosition
+        local units = SendTransport(Allies, "lst", { "e3", "e3", "e3", "e3", "e3",
+                                                     "e2", "e2", "e2", "e2", "e2", "e3", "e3", "e3", "e3", "e3",
+                                                     "e2", "e2", "e2", "e2", "e2" }, WEE.Location, SBSAI.Location, WEE.Location)
+        Trigger.AfterDelay(DateTime.Seconds(4), function()
+            Utils.Do(units, function(a)
+                a.AttackMove(SBSAR1.Location)
+                a.AttackMove(SBSAR2.Location)
+                a.AttackMove(SBSAR3.Location)
+                a.AttackMove(SBSAR4.Location)
+            end)
+        end)
+
+        Trigger.OnAllKilled(BvkBaseSmall, function()
+            Trigger.OnKilled(BvkUnit, function()
+                Utils.Do(Humans, function(player)
+                    player.MarkCompletedObjective(EliminateBalatovikObj)
+                end)
+            end)
+
+            local units2 = SendTransport(Allies, "tran", { "e1", "e1", "e1", "e1", "e1", "e1", "e1", "e1", "e1" },
+                    InsertionEnter.Location, InsertionLand.Location, InsertionEnter.Location)
+            Trigger.AfterDelay(DateTime.Seconds(8), function()
+                Utils.Do(units2, function(a)
+                    a.AttackMove(GuardLoc.Location)
+                    a.AttackMove(BEvacTo.Location)
+                end)
+            end)
         end)
     end)
 end

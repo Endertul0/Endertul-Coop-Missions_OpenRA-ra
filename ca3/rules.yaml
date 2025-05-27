@@ -35,6 +35,9 @@ World:
         DisplayOrder: 5
     TimeLimitManager:
         TimeLimitLocked: True
+    MapBuildRadius:
+        AllyBuildRadiusCheckboxEnabled: False
+        BuildRadiusCheckboxEnabled: False
 
 ^Palettes:
     IndexedPlayerPalette:
@@ -174,7 +177,7 @@ CAMERA.Large:
     Inherits: CAMERA
     # Required for YakAttack to work
     RevealsShroud:
-        Range: 49c0
+        Range: 46c0
         
 SPY.Strong:
     Inherits: SPY
