@@ -3,6 +3,7 @@
 ---@param y1 number
 ---@param x2 number
 ---@param y2 number
+---@return table
 CreateCposTable = function(x1, y1, x2, y2)
     local comTable = {}
     for x = x1, x2 do
@@ -36,6 +37,7 @@ end
 ---@param types table
 ---@param timeinterval number
 ---@param repeatAfter number
+---@return table
 SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)
@@ -198,8 +200,8 @@ WorldLoaded = function()
     end)
 
     -- When bvk + guards go to brdge proximity trigger
-    Trigger.OnEnteredFootprint(BvkDestroyBridge, function(_)
-        if not bombsAway then
+    Trigger.OnEnteredFootprint(BvkDestroyBridge, function(a)
+        if not bombsAway and a.Owner == BalatovikHO then
             bombsAway = true
             for i = 1, 11 do
                 Trigger.AfterDelay(Utils.RandomInteger(0, 60), function()

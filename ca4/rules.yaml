@@ -20,9 +20,9 @@ World:
         Blue: 0.35
         Ambient: 3
     MissionData:
-        Briefing: Balatovik's transport has been shot down! Get your spy to the Tech Center, before he escapes, to disable his transport capabilities.
+        Briefing: Infiltrating the Soviet Tech center has begun; your commandeering the spies gives us the greatest chance of success.
     LuaScript:
-        Scripts: campaign.lua, utils.lua, ca3.lua
+        Scripts: campaign.lua, utils.lua, ca4.lua
     ScriptLobbyDropdown@difficulty:
         ID: difficulty
         Label: dropdown-difficulty.label

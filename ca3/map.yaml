@@ -105,7 +105,7 @@ Actors:
 	A2Spy: spy.strong
 		SubCell: 3
 		Location: 22,10
-		Owner: Allies1
+		Owner: Allies2
 		Facing: 800
 	Actor5: e1
 		Owner: USSR
