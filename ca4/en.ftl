@@ -1,6 +1,0 @@
-
-
-hint = HINT
-tanya = Tanya
-
-
