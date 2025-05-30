@@ -1,0 +1,96 @@
+MapFormat: 12
+
+RequiresMod: ra
+
+Title: SPM
+
+Author: e0
+
+Tileset: DESERT
+
+MapSize: 130,130
+
+Bounds: 1,1,128,128
+
+Visibility: Lobby
+
+Categories: Conquest
+
+Players:
+	PlayerReference@Neutral:
+		Name: Neutral
+		OwnsWorld: True
+		NonCombatant: True
+		Faction: allies
+	PlayerReference@Spain:
+		Name: Spain
+		NonCombatant: True
+		Faction: spain
+		Color: F6D679
+		Enemies: Allies1, Allies2, Allies, USSR
+	PlayerReference@Allies:
+		Name: Allies
+		Playable: True
+		Required: True
+		LockFaction: True
+		Faction: allies
+		LockColor: True
+		Color: 5CC1A3
+		LockSpawn: True
+		LockTeam: True
+		Enemies: Spain
+
+Actors:
+	CamStart: camera.paradrop
+		Owner: Allies
+		Location: 1,77
+	AUnit: e1
+		Owner: Allies
+		SubCell: 3
+		Location: 0,77
+		Facing: 770
+	Choice1: waypoint
+		Owner: Neutral
+		Location: 8,77
+	X4: waypoint
+		Faction: allies
+		Location: 8,95
+		Owner: Spain
+	Choice2: waypoint
+		Owner: Neutral
+		Location: 31,77
+	Choice3: waypoint
+		Owner: Neutral
+		Location: 33,62
+	X1: waypoint
+		Faction: allies
+		Location: 71,79
+		Owner: Spain
+	X2: waypoint
+		Faction: allies
+		Location: 33,49
+		Owner: Spain
+	X3: waypoint
+		Faction: allies
+		Location: 61,64
+		Owner: Spain
+	Actor9: camera
+		Faction: allies
+		Location: 70,79
+		Owner: Spain
+	Actor10: camera
+		Owner: Spain
+		Location: 8,94
+	Actor11: camera
+		Owner: Spain
+		Location: 60,64
+	Actor12: camera
+		Owner: Spain
+		Location: 33,50
+	Csphere: pdox
+		Owner: Spain
+		Location: 13,29
+
+Rules: ra|rules/campaign-rules.yaml, ra|rules/campaign-tooltips.yaml, ra|rules/campaign-palettes.yaml, ra|rules/coop-missions-rules.yaml, rules.yaml
+
+Translations: ra|languages/lua/en.ftl, ra|languages/difficulties/en.ftl

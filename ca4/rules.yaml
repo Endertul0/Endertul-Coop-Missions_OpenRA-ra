@@ -1,0 +1,311 @@
+Player:
+    PlayerResources:
+        DefaultCash: 50000
+
+World:
+    WeatherOverlay:
+        WindTick: 150, 550
+        UseSquares: false
+        ScatterDirection: 0, 0
+        Gravity: 15, 25
+        SwingOffset: 0, 0
+        SwingSpeed: 0, 0
+        SwingAmplitude: 0, 0
+        ParticleColors: 304074, 28386C, 202C60, 182C54
+        LineTailAlphaValue: 150
+        ParticleSize: 1, 1
+    GlobalLightingPaletteEffect:
+        Red: 0.2
+        Green: 0.275
+        Blue: 0.35
+        Ambient: 3
+    MissionData:
+        Briefing: Infiltrating the Soviet Tech center has begun; your commandeering the spies gives us the greatest chance of success.
+    LuaScript:
+        Scripts: campaign.lua, utils.lua, ca4.lua
+    ScriptLobbyDropdown@difficulty:
+        ID: difficulty
+        Label: dropdown-difficulty.label
+        Description: dropdown-difficulty.description
+        Values:
+            hard: options-difficulty.hard
+            normal: options-difficulty.normal
+            easy: options-difficulty.easy
+        Default: normal
+        DisplayOrder: 5
+    TimeLimitManager:
+        TimeLimitLocked: True
+    MapBuildRadius:
+        AllyBuildRadiusCheckboxEnabled: False
+        BuildRadiusCheckboxEnabled: False
+
+^Palettes:
+    IndexedPlayerPalette:
+        PlayerIndex:
+            GoodGuy: 224, 224, 225, 225, 226, 184, 185, 186, 187, 188, 188, 189, 190, 190, 191, 191
+            Balatovik: 200, 200, 201, 202, 203, 203, 204, 205, 206, 206, 207, 221, 222, 222, 223, 223
+            BalatovikHO: 200, 200, 201, 202, 203, 203, 204, 205, 206, 206, 207, 221, 222, 222, 223, 223
+            HoldOut: 229, 230, 231, 232, 233, 234, 235, 8, 236, 237, 238, 239, 221, 222, 223, 223
+            Allies: 224, 224, 225, 225, 226, 184, 185, 186, 187, 188, 188, 189, 190, 190, 191, 191
+            Allies1: 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175
+            Allies2: 208, 208, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 154, 155, 143
+    IndexedPlayerPalette@NOSHADOW:
+        PlayerIndex:
+            GoodGuy: 224, 224, 225, 225, 226, 184, 185, 186, 187, 188, 188, 189, 190, 190, 191, 191
+            Balatovik: 200, 200, 201, 202, 203, 203, 204, 205, 206, 206, 207, 221, 222, 222, 223, 223
+            BalatovikHO: 200, 200, 201, 202, 203, 203, 204, 205, 206, 206, 207, 221, 222, 222, 223, 223
+            HoldOut: 229, 230, 231, 232, 233, 234, 235, 8, 236, 237, 238, 239, 221, 222, 223, 223
+            Allies: 224, 224, 225, 225, 226, 184, 185, 186, 187, 188, 188, 189, 190, 190, 191, 191
+            Allies1: 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175
+            Allies2: 208, 208, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 154, 155, 143
+
+BALATOVIK:
+    Inherits: E4
+    Tooltip:
+        Name: Balatovik
+    RenderSprites:
+        Image: e4
+    Buildable:
+        Prerequisites: ~disabled
+
+AGUN.LR:
+    Inherits: ^Defense
+    Inherits@IDISABLE: ^DisableOnLowPowerOrPowerDown
+    Inherits@AUTOTARGET: ^AutoTargetAir
+    Buildable:
+        Queue: Defense
+        BuildPaletteOrder: 90
+        Prerequisites: ~disabled
+        Description: Anti-Air base defense.\nRequires power to operate.\n  Strong vs Aircraft\n  Weak vs Ground units
+    Valued:
+        Cost: 800
+    Tooltip:
+        Name: AA Gun
+    Selectable:
+        Bounds: 1024, 1024
+        DecorationBounds: 1024, 1365, 0, -170
+    Health:
+        HP: 40000
+    Armor:
+        Type: Heavy
+    RevealsShroud:
+        MinRange: 5c0
+        Range: 6c0
+        RevealGeneratedShroud: False
+    RevealsShroud@GAPGEN:
+        Range: 5c0
+    WithBuildingBib:
+        HasMinibib: true
+    Turreted:
+        TurnSpeed: 60
+        InitialFacing: 832
+        RealignDelay: -1
+        RequiresCondition: !build-incomplete
+    WithSpriteTurret:
+        RequiresCondition: !build-incomplete
+        Recoils: false
+    Armament:
+        Weapon: 8InchShort
+        LocalOffset: 520,100,450, 520,-150,450
+        MuzzleSequence: muzzle
+    AttackTurreted:
+        PauseOnCondition: disabled || build-incomplete
+    WithMuzzleOverlay:
+    RenderRangeCircle:
+        RangeCircleType: aa
+    Power:
+        Amount: -50
+    -BodyOrientation:
+    ClassicFacingBodyOrientation:
+
+FLARE:
+    RevealsShroud:
+        Range: 4c0
+
+LST.Unselectable.UnloadOnly:
+    Inherits: LST
+    RejectsOrders:
+    Selectable:
+    Cargo:
+        MaxWeight: 0
+    RenderSprites:
+        Image: lst
+    Interactable:
+
+powerproxy.paratroopers:
+    ParatroopersPower:
+        DropItems: E1,E1,E3,E3,E4
+        
+powerproxy.parabombs:
+    AirstrikePower:
+        DisplayBeacon: False
+
+
+HBOX:
+    Buildable:
+        # Invalid targets for YakAttack
+        Prerequisites: ~disabled
+
+MGG:
+    Buildable:
+        Prerequisites: ~disabled
+    CreatesShroud:
+        Range: 6c0
+
+TCA:
+    Valued:
+        Cost: 2600
+    Tooltip:
+        Name: Tesla Cruiser
+    Inherits: CA
+    Mobile:
+        TurnSpeed: 100
+        Speed: 125
+    RenderSprites:
+        Image: tca
+    RevealsShroud:
+        Range: 7c0
+    Armament@PRIMARY:
+        Weapon: LongTesla
+    Armament@SECONDARY:
+        Weapon: LongTesla
+    Buildable:
+        Description: Combination of an Allied Cruiser and two Soviet Tesla Coils.\n  Strong vs Vehicles, Infantry\n  Weak vs Aircraft
+        Prerequisites: stek
+
+CAMERA.Large:
+    Inherits: CAMERA
+    # Required for YakAttack to work
+    RevealsShroud:
+        Range: 46c0
+        
+SPY.Strong:
+    Inherits: SPY
+    Buildable:
+        Prerequisites: ~disabled
+    RenderSprites:
+        Image: SPY
+    Health:
+        HP: 10000
+    RevealsShroud:
+        Range: 6c0
+    Infiltrates:
+        Types: MissionObjective
+    CaptureManager:
+    Captures:
+        CaptureTypes: MissionObjective
+        ConsumedByCapture: False
+        EnterCursor: ability
+        EnterBlockedCursor: move-blocked
+    Passenger:
+
+STEK:
+    Capturable:
+        Types: MissionObjective
+    Targetable:
+        TargetTypes: GroundActor, C4, DetonateAttack, Structure, MissionObjective, NoAutoTarget
+    Buildable:
+        Prerequisites: ~disabled
+        
+TRAN:
+    Contrail@1:
+        Offset: -598,-683,0
+        StartColorAlpha: 128
+    Contrail@2:
+        Offset: -598,683,0
+        StartColorAlpha: 128
+    LeavesTrails:
+        Offsets: -853,0,171
+        MovingInterval: 2
+        Image: smokey
+        SpawnAtLastPosition: False
+        Type: CenterPosition
+        RequiresCondition: enable-smoke
+        
+CA:
+    Buildable:
+        Prerequisites: atek
+        
+E7:
+    Buildable:
+        Prerequisites: ~disabled
+
+MIG:
+    Buildable:
+        Prerequisites: ~disabled
+
+ARTY:
+    Buildable:
+        Prerequisites: ~disabled
+
+AGUN:
+    Buildable:
+        Prerequisites: ~disabled
+
+MSLO:
+    Buildable:
+        Prerequisites: ~disabled
+
+SPEN:
+    Buildable:
+        Prerequisites: ~disabled
+
+IRON:
+    Buildable:
+        Prerequisites: ~disabled
+
+PDOX:
+    Buildable:
+        Prerequisites: ~disabled
+
+SAM:
+    Buildable:
+        Prerequisites: ~disabled
+
+HPAD:
+    Buildable:
+        Prerequisites: ~disabled
+
+AFLD:
+    Buildable:
+        Prerequisites: ~disabled
+
+ATEK:
+    Buildable:
+        Prerequisites: ~disabled
+
+4TNK:
+    Buildable:
+        Prerequisites: ~disabled
+
+MCV:
+    Buildable:
+        Prerequisites: ~disabled
+
+MNLY:
+    Buildable:
+        Prerequisites: ~disabled
+
+TTNK:
+    Buildable:
+        Prerequisites: ~disabled
+
+CTNK:
+    Buildable:
+        Prerequisites: ~disabled
+
+MRJ:
+    Buildable:
+        Prerequisites: ~disabled
+
+GAP:
+    Buildable:
+        Prerequisites: ~disabled
+
+QTNK:
+    Buildable:
+        Prerequisites: ~disabled
+
+THF:
+    Buildable:
+        Prerequisites: ~disabled

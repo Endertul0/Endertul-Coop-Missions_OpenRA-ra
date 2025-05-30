@@ -1,0 +1,49 @@
+Player:
+    PlayerResources:
+        DefaultCash: 50000
+
+World:
+    WeatherOverlay:
+        WindTick: 150, 550
+        UseSquares: false
+        ScatterDirection: 0, 0
+        Gravity: 15, 25
+        SwingOffset: 0, 0
+        SwingSpeed: 0, 0
+        SwingAmplitude: 0, 0
+        ParticleColors: 304074, 28386C, 202C60, 182C54
+        LineTailAlphaValue: 150
+        ParticleSize: 1, 1
+    GlobalLightingPaletteEffect:
+        Red: 0.2
+        Green: 0.275
+        Blue: 0.35
+        Ambient: 3
+    MissionData:
+        Briefing: Balatovik's transport has been shot down! Get your spy to the Tech Center, before he escapes, to disable his transport capabilities.
+    LuaScript:
+        Scripts: campaign.lua, utils.lua, spm.lua
+    ScriptLobbyDropdown@difficulty:
+        ID: difficulty
+        Label: dropdown-difficulty.label
+        Description: dropdown-difficulty.description
+        Values:
+            hard: options-difficulty.hard
+            normal: options-difficulty.normal
+            easy: options-difficulty.easy
+        Default: normal
+        DisplayOrder: 5
+    TimeLimitManager:
+        TimeLimitLocked: True
+    MapBuildRadius:
+        AllyBuildRadiusCheckboxEnabled: False
+        BuildRadiusCheckboxEnabled: False
+
+^Palettes:
+    IndexedPlayerPalette:
+        PlayerIndex:
+            Allies: 224, 224, 225, 225, 226, 184, 185, 186, 187, 188, 188, 189, 190, 190, 191, 191
+    IndexedPlayerPalette@NOSHADOW:
+        PlayerIndex:
+            Allies: 224, 224, 225, 225, 226, 184, 185, 186, 187, 188, 188, 189, 190, 190, 191, 191
+

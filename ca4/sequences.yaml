@@ -1,0 +1,55 @@
+
+tca:
+    idle:
+        Filename: ca.shp
+        Facings: 16
+    turret:
+        Filename: turr.shp
+        Facings: 32
+    muzzle:
+        Filename: gunfire2.shp
+        Length: 5
+    icon:
+        Filename: tcaicon.shp
+
+agun.lr:
+    Defaults:
+        Filename: agun.shp
+    idle:
+        Filename: gunmake.shp
+    make:
+        Filename: agunmake.shp
+        Length: *
+        Offset: 0,-13
+    turret:
+        Facings: 32
+        UseClassicFacings: True
+        Offset: 0,-13
+    recoil:
+        Start: 32
+        Facings: 32
+        UseClassicFacings: True
+        Offset: 0,-13
+    damaged-turret:
+        Start: 64
+        Facings: 32
+        UseClassicFacings: True
+        Offset: 0,-13
+    damaged-recoil:
+        Start: 96
+        Facings: 32
+        UseClassicFacings: True
+        Offset: 0,-13
+    muzzle:
+        Filename: gunfire2.shp
+        Start: 1
+        Length: 4
+    bib:
+        TilesetFilenames:
+            SNOW: mbAGUN.sno
+            INTERIOR: mbAGUN.int
+            TEMPERAT: mbAGUN.tem
+            DESERT: mbAGUN.des
+        Length: *
+    icon:
+        Filename: agunicon.shp
