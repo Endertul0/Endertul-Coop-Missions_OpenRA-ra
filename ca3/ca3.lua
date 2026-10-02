@@ -4,7 +4,7 @@
 ---@param x2 number
 ---@param y2 number
 ---@return table
-CreateCposTable = function(x1, y1, x2, y2)
+local CreateCposTable = function(x1, y1, x2, y2)
     local comTable = {}
     for x = x1, x2 do
         for y = y1, y2 do
@@ -16,7 +16,7 @@ end
 
 ---@param playerOwner player
 ---@param waypointTable table
-Paradrop = function(playerOwner, waypointTable, proxy, angle)
+local Paradrop = function(playerOwner, waypointTable, proxy, angle)
     local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
     local lz = Utils.Random(waypointTable)
     PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
@@ -25,7 +25,7 @@ end
 ---@param owner player
 ---@param proxy string
 ---@param pos wpos
-Parabomb = function(owner, proxy, pos, angle)
+local Parabomb = function(owner, proxy, pos, angle)
     angle = angle or Angle.NorthEast
     local power = Actor.Create(proxy, false, { Owner = owner })
     power.TargetAirstrike(pos, angle)
@@ -38,7 +38,7 @@ end
 ---@param timeinterval number
 ---@param repeatAfter number
 ---@return table
-SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
+local SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)
     Utils.Do(units, function(a)
@@ -59,7 +59,7 @@ end
 ---@param rally cpos
 ---@param exit cpos
 ---@return table
-SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
+local SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
     exit = exit or enter
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
@@ -73,32 +73,32 @@ SendTransport = function(playerOwner, transType, types, enter, rally, exit, repe
 end
 
 -- Top-level unit name constants
-TanyaStr = "tanya"
-Hint = "hint"
-ChinookStr = "tran"
-WaterTranStr = "lst"
+local TanyaStr = "tanya"
+local Hint = "hint"
+local ChinookStr = "tran"
+local WaterTranStr = "lst"
 
-LstLZ = CreateCposTable(53, 19, 55, 21)
-BvkDestroyBridge = CreateCposTable(67, 88, 69, 93)
-JoinChaseArea = CreateCposTable(58, 89, 62, 89)
+local LstLZ = CreateCposTable(53, 19, 55, 21)
+local BvkDestroyBridge = CreateCposTable(67, 88, 69, 93)
+local JoinChaseArea = CreateCposTable(58, 89, 62, 89)
 
-PowerGrid = { app1, app2, app3, app4, app5 }
-Syrd1CaptureFlares = { FComFlare1, SyrdFlare1, SyrdFlare2 }
-BalatovikGaurds1 = { bG1, bG2, bG3 }
-BalatovikGaurds2 = { bG4, bG5, bG6, bG7 }
-BvkAndGuards = { bG1, bG2, bG3, bG4, bG5, bG6, bG7, BvkUnit }
-BvkBaseLarge = { b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22 }
-BvkBaseSmall = { b23, b24, b25, b26, b27, b28, b29, b30, b31 }
-BvkBaseLargeCams = { c1, c2, c3, c4, c5 }
-BvkBaseSmallCams = { c6, c7, c8, c9, c10, c11 }
-aagns = { aagn1, aagn2 }
-spiesInLst1 = { false, false }
-producedYet = false
-StekInfiltrated = false
-bombsAway = false
-CamExposer = nil
+local PowerGrid = { app1, app2, app3, app4, app5 }
+local Syrd1CaptureFlares = { FComFlare1, SyrdFlare1, SyrdFlare2 }
+local BalatovikGaurds1 = { bG1, bG2, bG3 }
+local BalatovikGaurds2 = { bG4, bG5, bG6, bG7 }
+local BvkAndGuards = { bG1, bG2, bG3, bG4, bG5, bG6, bG7, BvkUnit }
+local BvkBaseLarge = { b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22 }
+local BvkBaseSmall = { b23, b24, b25, b26, b27, b28, b29, b30, b31 }
+local BvkBaseLargeCams = { c1, c2, c3, c4, c5 }
+local BvkBaseSmallCams = { c6, c7, c8, c9, c10, c11 }
+local aagns = { aagn1, aagn2 }
+local spiesInLst1 = { false, false }
+local producedYet = false
+local StekInfiltrated = false
+local bombsAway = false
+local CamExposer = nil
 
-AllAngles = {
+local AllAngles = {
     Angle.North,
     Angle.NorthEast,
     Angle.East,
@@ -109,10 +109,10 @@ AllAngles = {
     Angle.NorthWest
 }
 
-ParadropType = "powerproxy.paratroopers"
-ParabombType = "powerproxy.parabombs"
+local ParadropType = "powerproxy.paratroopers"
+local ParabombType = "powerproxy.parabombs"
 
-MoveAndUnloadTransport = function(trans, pt, outPath)
+local MoveAndUnloadTransport = function(trans, pt, outPath)
     trans.UnloadPassengers(pt)
     trans.Move(outPath[1].Location)
     trans.Move(outPath[2].Location)
@@ -122,7 +122,7 @@ MoveAndUnloadTransport = function(trans, pt, outPath)
     trans.Destroy()
 end
 
-EvacuateBalatovik = function(evacTo)
+local EvacuateBalatovik = function(evacTo)
     Utils.Do(BvkAndGuards, function(a)
         a.Move(BEvacTo.Location)
         if not (a == Map.NamedActor("BvkUnit")) then
@@ -149,6 +149,11 @@ Tick = function()
 end
 
 WorldLoaded = function()
+	Lighting.Red = 0.2
+	Lighting.Green = 0.275
+	Lighting.Blue = 0.35
+    Lighting.Ambient = 3
+
     -- SETUP PLAYERS & OTHER INITIAL THINGS
     Allies = Player.GetPlayer("Allies")
     Allies1 = Player.GetPlayer("Allies1")
@@ -179,9 +184,9 @@ WorldLoaded = function()
 
     -- USE FUNCTIONS AND TRIGGERS
     Trigger.AfterDelay(DateTime.Seconds(4), function()
-        Media.DisplayMessage(UserInterface.Translate("make-sure"), UserInterface.Translate(TanyaStr))
+        Media.DisplayMessage(UserInterface.GetFluentMessage("make-sure"), UserInterface.GetFluentMessage(TanyaStr))
         Trigger.AfterDelay(DateTime.Seconds(4), function()
-            Media.DisplayMessage(UserInterface.Translate("disguise-spy"), UserInterface.Translate("spy"))
+            Media.DisplayMessage(UserInterface.GetFluentMessage("disguise-spy"), UserInterface.GetFluentMessage("spy"))
         end)
     end)
 
@@ -234,7 +239,7 @@ WorldLoaded = function()
                 local bombAngle = Utils.Random(AllAngles)
                 Parabomb(Allies, ParabombType, a.CenterPosition, bombAngle)
             end)
-            Media.DisplayMessage(UserInterface.Translate("what-that"), UserInterface.Translate(TanyaStr))
+            Media.DisplayMessage(UserInterface.GetFluentMessage("what-that"), UserInterface.GetFluentMessage(TanyaStr))
             Trigger.AfterDelay(DateTime.Seconds(2), function()
                 Camera.Position = aagn1.CenterPosition
                 Utils.Do(BalatovikGaurds1, function(a)
@@ -254,7 +259,7 @@ WorldLoaded = function()
                         end)
                     end)
 
-                    Media.DisplayMessage(UserInterface.Translate("come-on"), UserInterface.Translate(TanyaStr))
+                    Media.DisplayMessage(UserInterface.GetFluentMessage("come-on"), UserInterface.GetFluentMessage(TanyaStr))
 
                     Utils.Do(Syrd1CaptureFlares, function(a)
                         a.Destroy()
@@ -268,7 +273,7 @@ WorldLoaded = function()
                     Syrd1.Produce("tca")
                     Syrd2.Produce("tca")
 
-                    Media.DisplayMessage(UserInterface.Translate("chase"), UserInterface.Translate(Hint))
+                    Media.DisplayMessage(UserInterface.GetFluentMessage("chase"), UserInterface.GetFluentMessage(Hint))
                 end)
             end)
         end

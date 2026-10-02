@@ -1,4 +1,6 @@
-
+options-difficulty.easy = Easy
+options-difficulty.normal = Normal
+options-difficulty.easy = Hard
 
 s-1 = Commander, we're para-dropping some infantry near your location. We'll try to get tanks to you as well, but we do not know how long that might take.
 s-2 = Commander, the tank transports have arrived!

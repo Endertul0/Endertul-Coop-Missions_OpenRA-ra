@@ -14,11 +14,6 @@ World:
         ParticleColors: 304074, 28386C, 202C60, 182C54
         LineTailAlphaValue: 150
         ParticleSize: 1, 1
-    GlobalLightingPaletteEffect:
-        Red: 0.2
-        Green: 0.275
-        Blue: 0.35
-        Ambient: 3
     MissionData:
         Briefing: Infiltrating the Soviet Tech center has begun; your commandeering the spies gives us the greatest chance of success.
     LuaScript:
@@ -151,27 +146,6 @@ MGG:
         Prerequisites: ~disabled
     CreatesShroud:
         Range: 6c0
-
-TCA:
-    Valued:
-        Cost: 2600
-    Tooltip:
-        Name: Tesla Cruiser
-    Inherits: CA
-    Mobile:
-        TurnSpeed: 100
-        Speed: 125
-    RenderSprites:
-        Image: tca
-    RevealsShroud:
-        Range: 7c0
-    Armament@PRIMARY:
-        Weapon: LongTesla
-    Armament@SECONDARY:
-        Weapon: LongTesla
-    Buildable:
-        Description: Combination of an Allied Cruiser and two Soviet Tesla Coils.\n  Strong vs Vehicles, Infantry\n  Weak vs Aircraft
-        Prerequisites: stek
 
 CAMERA.Large:
     Inherits: CAMERA

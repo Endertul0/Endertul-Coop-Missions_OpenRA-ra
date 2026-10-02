@@ -1,0 +1,14 @@
+{
+  "workspace": {
+    "library": [
+      "C:/Users/shawn/AppData/Roaming/OpenRA/maps/ra/release-20231010",
+      "${3rd}/love2d/library"
+    ]
+  },
+    "diagnostics.globals": [
+        "WaterEnter"
+    ],
+    "diagnostics.disable": [
+        "undefined-global"
+    ]
+}

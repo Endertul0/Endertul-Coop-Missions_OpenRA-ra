@@ -14,11 +14,6 @@ World:
         ParticleColors: 304074, 28386C, 202C60, 182C54
         LineTailAlphaValue: 150
         ParticleSize: 1, 1
-    GlobalLightingPaletteEffect:
-        Red: 0.2
-        Green: 0.275
-        Blue: 0.35
-        Ambient: 3
     MissionData:
         Briefing: Balatovik's transport has been shot down! Get your spy to the Tech Center, before he escapes, to disable his transport capabilities.
     LuaScript:

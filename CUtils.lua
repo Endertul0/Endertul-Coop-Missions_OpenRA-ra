@@ -1,9 +1,10 @@
----Create a table full of cpos between (x1, y1) and (x2, y2)
+---Create a table full of cpos between (`x1`, `y1`) and (`x2`, `y2`)
 ---@param x1 number
 ---@param y1 number
 ---@param x2 number
 ---@param y2 number
-CreateCposTable = function(x1, y1, x2, y2)
+---@return cpos[]
+local CreateCposTable = function(x1, y1, x2, y2)
     local comTable = {}
     for x = x1, x2 do
         for y = y1, y2 do
@@ -15,10 +16,10 @@ end
 
 ---@param playerOwner player
 ---@param wayointTable table
-ParadropUnits = function(playerOwner, wayointTable, proxy, angle)
-    local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
-    local lz = Utils.Random(wayointTable)
-    PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
+local ParadropUnits = function(playerOwner, wayointTable, proxy, angle)
+	local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
+	local lz = Utils.Random(wayointTable)
+	PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
 end
 
 ---@param playerOwner player
@@ -27,7 +28,8 @@ end
 ---@param types table
 ---@param timeinterval number
 ---@param repeatAfter number
-SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
+---@return actor[]
+local SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)
     Utils.Do(units, function(a)
@@ -47,16 +49,16 @@ end
 ---@param enter cpos
 ---@param rally cpos
 ---@param exit cpos
----@return table
-SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
-    exit = exit or enter
-    repeatAfter = repeatAfter or -1
-    local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
-            types, { enter, rally }, { exit })[2]
-    if not (repeatAfter == -1) then
-        Trigger.AfterDelay(DateTime.Seconds(repeatAfter), function()
-            SendTransport(playerOwner, transType, types, enter, rally, exit, repeatAfter)
-        end)
-    end
-    return units
+---@return [actor, actor[]] "A table in which the first value is the transport, and the second a table containing the deployed units."
+local SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
+	exit = exit or enter
+	repeatAfter = repeatAfter or -1
+	local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
+		types, { enter, rally }, { exit })[2]
+	if not (repeatAfter == -1) then
+		Trigger.AfterDelay(DateTime.Seconds(repeatAfter), function()
+			SendTransport(playerOwner, transType, types, enter, rally, exit, repeatAfter)
+		end)
+	end
+	return units
 end

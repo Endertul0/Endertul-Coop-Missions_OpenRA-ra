@@ -4,7 +4,7 @@
 ---@param x2 number
 ---@param y2 number
 ---@return table
-CreateCposTable = function(x1, y1, x2, y2)
+local CreateCposTable = function(x1, y1, x2, y2)
     local comTable = {}
     for x = x1, x2 do
         for y = y1, y2 do
@@ -16,7 +16,7 @@ end
 
 ---@param playerOwner player
 ---@param waypointTable table
-Paradrop = function(playerOwner, waypointTable, proxy, angle)
+local Paradrop = function(playerOwner, waypointTable, proxy, angle)
     local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
     local lz = Utils.Random(waypointTable)
     PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
@@ -25,7 +25,7 @@ end
 ---@param owner player
 ---@param proxy string
 ---@param pos wpos
-Parabomb = function(owner, proxy, pos, angle)
+local Parabomb = function(owner, proxy, pos, angle)
     angle = angle or Angle.NorthEast
     local power = Actor.Create(proxy, false, { Owner = owner })
     power.TargetAirstrike(pos, angle)
@@ -38,7 +38,7 @@ end
 ---@param timeinterval number
 ---@param repeatAfter number
 ---@return table
-SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
+local SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)
     Utils.Do(units, function(a)
@@ -59,7 +59,7 @@ end
 ---@param rally cpos
 ---@param exit cpos
 ---@return table
-SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
+local SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
     exit = exit or enter
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
@@ -72,18 +72,18 @@ SendTransport = function(playerOwner, transType, types, enter, rally, exit, repe
     return units
 end
 
-CamLock = nil
-ToX4 = { CPos.New(8, 78) }
-ToChoice2 = { CPos.New(9, 77) }
-ToChoice3 = { CPos.New(31, 76) }
-ToX1 = { CPos.New(32, 77) }
-ToX2 = { CPos.New(33, 61) }
-ToX3 = { CPos.New(34, 62) }
+local CamLock = nil
+local ToX4 = { CPos.New(8, 78) }
+local ToChoice2 = { CPos.New(9, 77) }
+local ToChoice3 = { CPos.New(31, 76) }
+local ToX1 = { CPos.New(32, 77) }
+local ToX2 = { CPos.New(33, 61) }
+local ToX3 = { CPos.New(34, 62) }
 
-AtX1 = { X1.Location }
-AtX2 = { X2.Location }
-AtX3 = { X3.Location }
-AtX4 = { X4.Location }
+local AtX1 = { X1.Location }
+local AtX2 = { X2.Location }
+local AtX3 = { X3.Location }
+local AtX4 = { X4.Location }
 
 Tick = function()
     if CamLock ~= nil and not (CamLock.IsDead) then
@@ -94,7 +94,7 @@ end
 ---@param loc cpos
 ---@param type string
 ---@param angle wangle
-CShift = function(loc, type, angle)
+local CShift = function(loc, type, angle)
     local cells = { loc }
     local units = { }
     for i = 1, #cells do
