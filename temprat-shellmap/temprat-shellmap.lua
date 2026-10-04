@@ -3,7 +3,7 @@
 ---@param y1 number
 ---@param x2 number
 ---@param y2 number
-CreateCposTable = function(x1, y1, x2, y2)
+local CreateCposTable = function(x1, y1, x2, y2)
     local comTable = {}
     for x = x1, x2 do
         for y = y1, y2 do
@@ -15,7 +15,7 @@ end
 
 ---@param playerOwner player
 ---@param wayointTable table
-ParadropUnits = function(playerOwner, wayointTable, proxy, angle)
+local ParadropUnits = function(playerOwner, wayointTable, proxy, angle)
     local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
     local lz = Utils.Random(wayointTable)
     PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
@@ -27,7 +27,7 @@ end
 ---@param types table
 ---@param timeinterval number
 ---@param repeatAfter number
-SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
+local SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)
     Utils.Do(units, function(a)
@@ -48,11 +48,11 @@ end
 ---@param rally cpos
 ---@param exit cpos
 ---@return table
-SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
+local SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
     exit = exit or enter
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
-            types, { enter, rally }, { exit })[2]
+        types, { enter, rally }, { exit })[2]
     if not (repeatAfter == -1) then
         Trigger.AfterDelay(DateTime.Seconds(repeatAfter), function()
             SendTransport(playerOwner, transType, types, enter, rally, exit, repeatAfter)
@@ -61,7 +61,11 @@ SendTransport = function(playerOwner, transType, types, enter, rally, exit, repe
     return units
 end
 
-ProducedUnitTypes = {
+local Allies
+local Soviets
+local Spain
+
+local ProducedUnitTypes = {
     { factory = AB1, types = { "e1", "e3" } },
     { factory = AB2, types = { "e1", "e3" } },
     { factory = AB3, types = { "e1", "e3" } },
@@ -83,16 +87,19 @@ ProducedUnitTypes = {
     { factory = SA2, types = { "yak", "yak", "yak", "yak", "mig" } }
 }
 
-SpainBridgeTypes = { "e1", "e1", "e1", "e3", "e3", "e2" }
+local SpainBridgeTypes = { "e1", "e1", "e1", "e3", "e3", "e2" }
 
-AlliesTranPts = CreateCposTable(31, 55, 35, 60)
-SovietsTranPts = CreateCposTable(76, 45, 81, 52)
-SpainTranPts = CreateCposTable(50, 50, 58, 54)
+local AlliesTranPts = CreateCposTable(31, 55, 35, 60)
+local SovietsTranPts = CreateCposTable(76, 45, 81, 52)
+local SpainTranPts = CreateCposTable(50, 50, 58, 54)
 
-SpainBridgeinterval = 50
-SpainTranInterval = SpainBridgeinterval*2 / 3
+local SpainBridgeinterval = 50
+local SpainTranInterval = SpainBridgeinterval*2 / 3
 
-BindActorTriggers = function(a)
+local Ticks = 0
+local Speed = 4
+
+local BindActorTriggers = function(a)
     if a.HasProperty("Hunt") then
         if a.Owner == Allies then
             Trigger.OnIdle(a, function(a)
@@ -143,9 +150,6 @@ BindActorTriggers = function(a)
     end
 end
 
-Ticks = 0
-Speed = 4
-
 Tick = function()
     Ticks = Ticks + 1
 
@@ -153,7 +157,7 @@ Tick = function()
     Camera.Position = ViewportOrigin + WVec.New(19200 * math.sin(t), 20480 * math.cos(t), 0)
 end
 
-SetupExistingUnits = function()
+local SetupExistingUnits = function()
     Utils.Do(Map.ActorsInWorld, function(a)
         if a.HasProperty("AcceptsCondition") and a.AcceptsCondition("unkillable") then
             a.GrantCondition("unkillable")
@@ -162,7 +166,7 @@ SetupExistingUnits = function()
     end)
 end
 
-ProduceUnits = function(t)
+local ProduceUnits = function(t)
     local factory = t.factory
     if not factory.IsDead then
         local unitType = t.types[Utils.RandomInteger(1, #t.types + 1)]
@@ -174,7 +178,7 @@ ProduceUnits = function(t)
     end
 end
 
-SetupFactories = function()
+local SetupFactories = function()
     Utils.Do(ProducedUnitTypes, function(production)
         Trigger.OnProduction(production.factory, function(_, a)
             BindActorTriggers(a)

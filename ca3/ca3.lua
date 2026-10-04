@@ -1,10 +1,9 @@
----Create a table full of cpos between (x1, y1) and (x2, y2)
 ---@param x1 number
 ---@param y1 number
 ---@param x2 number
 ---@param y2 number
----@return table
-CreateCposTable = function(x1, y1, x2, y2)
+---@return table Returns a table full of `cpos`s between (`x1`, `y1`) and (`x2`, `y2`)
+local function CreateCposTable(x1, y1, x2, y2)
     local comTable = {}
     for x = x1, x2 do
         for y = y1, y2 do
@@ -14,19 +13,14 @@ CreateCposTable = function(x1, y1, x2, y2)
     return comTable
 end
 
----@param playerOwner player
----@param waypointTable table
-Paradrop = function(playerOwner, waypointTable, proxy, angle)
-    local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
-    local lz = Utils.Random(waypointTable)
-    PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
-end
+local ParabombType = "powerproxy.parabombs"
 
 ---@param owner player
 ---@param proxy string
 ---@param pos wpos
-Parabomb = function(owner, proxy, pos, angle)
+local function Parabomb(owner, pos, angle, proxy)
     angle = angle or Angle.NorthEast
+    proxy = proxy or ParabombType
     local power = Actor.Create(proxy, false, { Owner = owner })
     power.TargetAirstrike(pos, angle)
 end
@@ -34,11 +28,11 @@ end
 ---@param playerOwner player
 ---@param enter cpos
 ---@param rally cpos
----@param types table
----@param timeinterval number
----@param repeatAfter number
----@return table
-SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
+---@param types table { "e1", "e1", "e1", "e3", "e3" }, etc.
+---@param timeinterval number Time in-between each unit appearing
+---@param repeatAfter number Integer number of seconds after which to create another group of units
+---@return table The spawned units
+local function SendUnits(playerOwner, enter, rally, types, timeinterval, repeatAfter)
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)
     Utils.Do(units, function(a)
@@ -54,12 +48,13 @@ end
 
 ---@param playerOwner player
 ---@param transType string
----@param types table
+---@param types table { "e1", "e1", "e1", "e3", "e3" }, etc. Units within transport
 ---@param enter cpos
 ---@param rally cpos
 ---@param exit cpos
----@return table
-SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
+---@param repeatAfter number Integer number of seconds after which to create another transport
+---@return table Returns a table in which index 1 is the transport and index 2 is a table containing the units inside the transport.
+local function SendTransport(playerOwner, transType, types, enter, rally, exit, repeatAfter)
     exit = exit or enter
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
@@ -73,32 +68,28 @@ SendTransport = function(playerOwner, transType, types, enter, rally, exit, repe
 end
 
 -- Top-level unit name constants
-TanyaStr = "tanya"
-Hint = "hint"
-ChinookStr = "tran"
-WaterTranStr = "lst"
+local TanyaStr = "tanya"
+local Hint = "hint"
 
-LstLZ = CreateCposTable(53, 19, 55, 21)
-BvkDestroyBridge = CreateCposTable(67, 88, 69, 93)
-JoinChaseArea = CreateCposTable(58, 89, 62, 89)
+local LstLZ = CreateCposTable(53, 19, 55, 21)
+local BvkDestroyBridge = CreateCposTable(67, 88, 69, 93)
 
-PowerGrid = { app1, app2, app3, app4, app5 }
-Syrd1CaptureFlares = { FComFlare1, SyrdFlare1, SyrdFlare2 }
-BalatovikGaurds1 = { bG1, bG2, bG3 }
-BalatovikGaurds2 = { bG4, bG5, bG6, bG7 }
-BvkAndGuards = { bG1, bG2, bG3, bG4, bG5, bG6, bG7, BvkUnit }
-BvkBaseLarge = { b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22 }
-BvkBaseSmall = { b23, b24, b25, b26, b27, b28, b29, b30, b31 }
-BvkBaseLargeCams = { c1, c2, c3, c4, c5 }
-BvkBaseSmallCams = { c6, c7, c8, c9, c10, c11 }
-aagns = { aagn1, aagn2 }
-spiesInLst1 = { false, false }
-producedYet = false
-StekInfiltrated = false
-bombsAway = false
-CamExposer = nil
+local PowerGrid = { app1, app2, app3, app4, app5 }
+local Syrd1CaptureFlares = { FComFlare1, SyrdFlare1, SyrdFlare2 }
+local BalatovikGaurds1 = { bG1, bG2, bG3 }
+local BalatovikGaurds2 = { bG4, bG5, bG6, bG7 }
+local BvkAndGuards = { bG1, bG2, bG3, bG4, bG5, bG6, bG7, BvkUnit }
+local BvkBaseLarge = { b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20, b21, b22 }
+local BvkBaseSmall = { b23, b24, b25, b26, b27, b28, b29, b30, b31 }
+local BvkBaseLargeCams = { c1, c2, c3, c4, c5 }
+local BvkBaseSmallCams = { c6, c7, c8, c9, c10, c11 }
+local aagns = { aagn1, aagn2 }
+local spiesInLst1 = { false, false }
+local StekInfiltrated = false
+local bombsAway = false
+local CamExposer
 
-AllAngles = {
+local AllAngles = {
     Angle.North,
     Angle.NorthEast,
     Angle.East,
@@ -109,10 +100,25 @@ AllAngles = {
     Angle.NorthWest
 }
 
-ParadropType = "powerproxy.paratroopers"
-ParabombType = "powerproxy.parabombs"
 
-MoveAndUnloadTransport = function(trans, pt, outPath)
+---@type player
+local Allies = Player.GetPlayer("Allies")
+---@type player
+local Allies1 = Player.GetPlayer("Allies1")
+---@type player
+local Allies2 = Player.GetPlayer("Allies2")
+
+---@type player
+local USSR = Player.GetPlayer("USSR")
+---@type player
+local Balatovik = Player.GetPlayer("Balatovik")
+---@type player
+local BalatovikHO = Player.GetPlayer("BalatovikHO")
+
+---@type table<player>
+local Humans = { Allies1, Allies2 }
+
+local MoveAndUnloadTransport = function(trans, pt, outPath)
     trans.UnloadPassengers(pt)
     trans.Move(outPath[1].Location)
     trans.Move(outPath[2].Location)
@@ -122,7 +128,7 @@ MoveAndUnloadTransport = function(trans, pt, outPath)
     trans.Destroy()
 end
 
-EvacuateBalatovik = function(evacTo)
+local EvacuateBalatovik = function()
     Utils.Do(BvkAndGuards, function(a)
         a.Move(BEvacTo.Location)
         if not (a == Map.NamedActor("BvkUnit")) then
@@ -159,9 +165,6 @@ WorldLoaded = function()
     BalatovikHO = Player.GetPlayer("BalatovikHO")
 
     Humans = { Allies1, Allies2 }
-
-    Spy1 = Map.NamedActor("A1Spy")
-    Spy2 = Map.NamedActor("A2Spy")
 
     Camera.Position = HeliFlare.CenterPosition
     InitObjectives(Allies1)
@@ -203,9 +206,9 @@ WorldLoaded = function()
     Trigger.OnEnteredFootprint(BvkDestroyBridge, function(a)
         if not bombsAway and a.Owner == BalatovikHO then
             bombsAway = true
-            for i = 1, 11 do
+            for _ = 1, 11 do
                 Trigger.AfterDelay(Utils.RandomInteger(0, 60), function()
-                    Parabomb(Balatovik, ParabombType, BvkBridgeAttack.CenterPosition, Angle.NorthEast)
+                    Parabomb(Balatovik, BvkBridgeAttack.CenterPosition, Angle.NorthEast, ParabombType)
                 end)
             end
             SendUnits(Allies, CPos.New(57, 96), BvkUnit.Location,
@@ -219,7 +222,7 @@ WorldLoaded = function()
     end)
 
     -- When spy infiltrates stek, start bvk escape
-    Trigger.OnInfiltrated(StekObjBuilding, function(self, unit)
+    Trigger.OnInfiltrated(StekObjBuilding, function(_, _)
         if not StekInfiltrated then
             StekInfiltrated = true
             Utils.Do(Humans, function(player)
@@ -232,7 +235,7 @@ WorldLoaded = function()
             end)
             Utils.Do(USSRBldgs, function(a)
                 local bombAngle = Utils.Random(AllAngles)
-                Parabomb(Allies, ParabombType, a.CenterPosition, bombAngle)
+                Parabomb(Allies, a.CenterPosition, bombAngle, ParabombType)
             end)
             Media.DisplayMessage(UserInterface.Translate("what-that"), UserInterface.Translate(TanyaStr))
             Trigger.AfterDelay(DateTime.Seconds(2), function()
@@ -245,7 +248,7 @@ WorldLoaded = function()
                 end)
                 CamExposer = BvkUnit
                 Trigger.OnAllKilledOrCaptured(aagns, function()
-                    EvacuateBalatovik(BEvacTo)
+                    EvacuateBalatovik()
                     local alliesTranUnits = SendTransport(Allies, "lst", { "e1", "e1", "e1", "e3", "e3", "e2" },
                             BalatovikChaseEnter.Location, BalatovikChaseLand.Location, BalatovikChaseEnter.Location)
                     Trigger.AfterDelay(DateTime.Seconds(8), function()
@@ -276,13 +279,13 @@ WorldLoaded = function()
 
     -- When spy gets to landing zone
     Trigger.OnEnteredFootprint(LstLZ, function(unit)
-        if unit == Spy1 then
+        if unit == A1Spy then
             unit.Stop()
             unit.EnterTransport(SpyLst1)
             Trigger.AfterDelay(DateTime.Seconds(1), function()
                 spiesInLst1[1] = true
             end)
-        elseif unit == Spy2 then
+        elseif unit == A2Spy then
             unit.Stop()
             unit.EnterTransport(SpyLst1)
             Trigger.AfterDelay(DateTime.Seconds(1), function()

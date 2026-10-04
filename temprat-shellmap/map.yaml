@@ -224,13 +224,6 @@ Actors:
 		Location: 61,63
 		Stance: Defend
 		Facing: 87
-	ca3: ca
-		Faction: soviet
-		Location: 55,39
-		Owner: Allies
-		Facing: 277
-		TurretFacing@PRIMARY: 325
-		TurretFacing@SECONDARY: 317
 	ca2: ca
 		Faction: soviet
 		Location: 47,41
@@ -353,15 +346,17 @@ Actors:
 		Owner: Allies
 		Location: 42,42
 		Facing: 47
+		TurretFacing: 880
 	Actor117: dd
 		Owner: Allies
 		Location: 52,40
 		Facing: 198
+		TurretFacing: 840
 	Actor118: dd
 		Owner: Allies
 		Location: 49,39
 		Facing: 896
-		TurretFacing: 0
+		TurretFacing: 126
 	Actor122: sam
 		Owner: Soviets
 		Location: 49,61
@@ -384,8 +379,8 @@ Actors:
 		Location: 39,40
 		Owner: Allies
 		Facing: 705
-		TurretFacing@PRIMARY: 904
-		TurretFacing@SECONDARY: 793
+		TurretFacing@SECONDARY: 919
+		TurretFacing@PRIMARY: 919
 	Actor127: pbox
 		Owner: Spain
 		Location: 5,31
@@ -2539,6 +2534,21 @@ Actors:
 		Faction: england
 		Location: 99,128
 		Owner: Spain
+	ca3: ca
+		Owner: Allies
+		Location: 44,40
+		Facing: 301
+		TurretFacing@PRIMARY: 380
+		TurretFacing@SECONDARY: 380
+	Actor862: camera
+		Owner: Allies
+		Location: 46,51
+	Actor863: camera
+		Owner: Soviets
+		Location: 55,55
+	Actor864: camera
+		Owner: Spain
+		Location: 54,56
 
 Rules: rules.yaml
 

@@ -28,30 +28,32 @@ Players:
 		Name: Spain
 		NonCombatant: True
 		Faction: england
-		Enemies: GoodGuy, Greece, USSR
-	PlayerReference@GoodGuy:
-		Name: GoodGuy
-		Playable: True
-		Faction: Random
-		Color: 6BFC03
-		Enemies: Spain, USSR
-	PlayerReference@Greece:
-		Name: Greece
-		Playable: True
-		Faction: Random
-		Color: FFAF24
-		Enemies: Spain, USSR
+		Enemies: Allies1, Allies2, USSR
 	PlayerReference@Allies:
 		Name: Allies
 		Faction: allies
 		Color: 6BFC03
-		Allies: GoodGuy, Greece
+		Allies: Allies1, Allies2
+		Enemies: Spain, USSR
+	PlayerReference@Allies1:
+		Name: Allies1
+		Playable: True
+		Faction: Random
+		Color: 6BFC03
+		Allies: Allies2, Allies
+		Enemies: Spain, USSR
+	PlayerReference@Allies2:
+		Name: Allies2
+		Playable: True
+		Faction: Random
+		Color: FFAF24
+		Allies: Allies1, Allies
 		Enemies: Spain, USSR
 	PlayerReference@USSR:
 		Name: USSR
 		Faction: russia
 		Color: B81F1F
-		Enemies: Spain, GoodGuy, Greece
+		Enemies: Spain, Allies1, Allies2
 
 Actors:
 	Actor2: brik
@@ -279,19 +281,19 @@ Actors:
 		Location: 39,3
 		Facing: 150
 	m0-sub1: ss
-		Owner: GoodGuy
+		Owner: Allies1
 		Location: 30,1
 		Facing: 761
 	m0-sub2: ss
-		Owner: GoodGuy
+		Owner: Allies1
 		Location: 31,3
 		Facing: 848
 	m1-sub1: ss
-		Owner: Greece
+		Owner: Allies2
 		Location: 25,1
 		Facing: 761
 	m1-sub2: ss
-		Owner: Greece
+		Owner: Allies2
 		Location: 27,2
 		Facing: 808
 	SpainInvRally: waypoint
@@ -420,35 +422,35 @@ Actors:
 	AA1: agun
 		Faction: england
 		Location: 25,6
-		Owner: GoodGuy
+		Owner: Allies1
 		TurretFacing: 832
 	AA4: agun
 		Faction: england
 		Location: 23,19
-		Owner: Greece
+		Owner: Allies2
 		TurretFacing: 832
 	AA2: agun
 		Faction: england
 		Location: 24,10
-		Owner: Greece
+		Owner: Allies2
 		TurretFacing: 832
 	AA3: agun
 		Faction: england
 		Location: 23,15
-		Owner: GoodGuy
+		Owner: Allies1
 		TurretFacing: 832
 	CamoPill1: hbox
-		Owner: GoodGuy
+		Owner: Allies1
 		Location: 27,11
 	CamoPill2: hbox
-		Owner: Greece
+		Owner: Allies2
 		Location: 27,16
 	Turr1: gun
-		Owner: Greece
+		Owner: Allies2
 		Location: 25,12
 		TurretFacing: 689
 	Turr2: gun
-		Owner: GoodGuy
+		Owner: Allies1
 		Location: 25,15
 		TurretFacing: 808
 	AlliedTech: atek

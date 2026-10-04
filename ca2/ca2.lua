@@ -1,25 +1,25 @@
 
-UDefenses1 = { UHbox1, UHbox2, UGun1, UGun2 }
-UPwrGrid = { UPwrGrid1, UPwrGrid2, UPwrGrid3, UPwrGrid4, UPwrGrid5, UPwrGrid6 }
-UAflds = { UAfld1, UAfld2, UAfld3, UAfld4, UAfld5, UAfld6 }
+local UDefenses1 = { UHbox1, UHbox2, UGun1, UGun2 }
+local UPwrGrid = { UPwrGrid1, UPwrGrid2, UPwrGrid3, UPwrGrid4, UPwrGrid5, UPwrGrid6 }
+local UAflds = { UAfld1, UAfld2, UAfld3, UAfld4, UAfld5, UAfld6 }
 
-Jammers = { MRJ1, MRJ2, MRJ3, MRJ4 }
-SpainSubs = { SpainBlock1, SpainBlock2, SpainBlock3 }
+local Jammers = { MRJ1, MRJ2, MRJ3, MRJ4 }
+local SpainSubs = { SpainBlock1, SpainBlock2, SpainBlock3 }
 
-WaterTypes = { "e1", "e1", "e1", "e3", "e3", "e2", "e1", "e1", "e1", "e3", "e3", "e2" }
-TanyaTypes = { "e7" }
+local WaterTypes = { "e1", "e1", "e1", "e3", "e3", "e2", "e1", "e1", "e1", "e3", "e3", "e2" }
+local TanyaTypes = { "e7" }
 
-StartTimer = false
-TimerColor = Player.GetPlayer("USSR").Color
-EndTimerColor = Player.GetPlayer("Spain").Color
-TimerTicks = DateTime.Minutes(1)
-Ticked = TimerTicks
-once1 = false
+local StartTimer = false
+local TimerColor = Player.GetPlayer("USSR").Color
+local EndTimerColor = Player.GetPlayer("Spain").Color
+local TimerTicks = DateTime.Minutes(1)
+local Ticked = TimerTicks
+local once1 = false
 
-WaterTransportType = "lst.unselectable.unloadonly"
-AirTransportType = "tran.unselectable.unloadonly"
+local WaterTransportType = "lst.unselectable.unloadonly"
+local AirTransportType = "tran.unselectable.unloadonly"
 
-StartTimerFunction = function()
+local StartTimerFunction = function()
     StartTimer = true
 end
 
@@ -53,7 +53,7 @@ Tick = function()
     end
 end
 
-SendWaterUnits = function()
+local SendWaterUnits = function()
     c1path = { WaterWayEnter.Location, WaterWay1.Location, CP1.Location }
     c2path = { WaterWayEnter.Location, WaterWay1.Location, CP2.Location }
     local crusier1 = Reinforcements.Reinforce(Allies, { "ca.tesla" }, c1path)
@@ -175,6 +175,4 @@ WorldLoaded = function()
             end
         end)
     end)
-
-
 end

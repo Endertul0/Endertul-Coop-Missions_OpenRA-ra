@@ -1,6 +1,6 @@
 Player:
     PlayerResources:
-        DefaultCash: 50000
+        DefaultCash: 0
 
 World:
     WeatherOverlay:
@@ -20,7 +20,7 @@ World:
         Blue: 0.35
         Ambient: 3
     MissionData:
-        Briefing: Infiltrating the Soviet Tech center has begun; your commandeering the spies gives us the greatest chance of success.
+        Briefing: Infiltrating the Soviet Tech center has begun. You must commandeer the spies.
     LuaScript:
         Scripts: campaign.lua, utils.lua, ca4.lua
     ScriptLobbyDropdown@difficulty:
@@ -67,6 +67,26 @@ BALATOVIK:
         Image: e4
     Buildable:
         Prerequisites: ~disabled
+    Armament:
+        Weapon: Repair
+        Cursor: repair
+        OutsideRangeCursor: repair
+        TargetRelationships: Ally
+        ForceTargetRelationships: None
+    AttackFrontal:
+        Voice: Action
+        FacingTolerance: 0
+    CaptureManager:
+    Captures:
+        CaptureTypes: husk
+        PlayerExperience: 10
+    Infiltrates:
+        Types: Husk
+        ValidRelationships: Ally
+        EnterCursor: goldwrench
+
+^Husk:
+    -ChangesHealth:
 
 AGUN.LR:
     Inherits: ^Defense
@@ -76,16 +96,16 @@ AGUN.LR:
         Queue: Defense
         BuildPaletteOrder: 90
         Prerequisites: ~disabled
-        Description: Anti-Air base defense.\nRequires power to operate.\n  Strong vs Aircraft\n  Weak vs Ground units
+        Description: Anti-Ground immovable artillery.\nRequires power to operate.\n  Strong vs Ground\n  Weak vs Air
     Valued:
-        Cost: 800
+        Cost: 950
     Tooltip:
-        Name: AA Gun
+        Name: LR AA Gun
     Selectable:
         Bounds: 1024, 1024
         DecorationBounds: 1024, 1365, 0, -170
     Health:
-        HP: 40000
+        HP: 60000
     Armor:
         Type: Heavy
     RevealsShroud:
@@ -118,9 +138,9 @@ AGUN.LR:
     -BodyOrientation:
     ClassicFacingBodyOrientation:
 
-FLARE:
+camera.paradrop:
     RevealsShroud:
-        Range: 4c0
+        Range: 3c0
 
 LST.Unselectable.UnloadOnly:
     Inherits: LST
@@ -151,27 +171,6 @@ MGG:
         Prerequisites: ~disabled
     CreatesShroud:
         Range: 6c0
-
-TCA:
-    Valued:
-        Cost: 2600
-    Tooltip:
-        Name: Tesla Cruiser
-    Inherits: CA
-    Mobile:
-        TurnSpeed: 100
-        Speed: 125
-    RenderSprites:
-        Image: tca
-    RevealsShroud:
-        Range: 7c0
-    Armament@PRIMARY:
-        Weapon: LongTesla
-    Armament@SECONDARY:
-        Weapon: LongTesla
-    Buildable:
-        Description: Combination of an Allied Cruiser and two Soviet Tesla Coils.\n  Strong vs Vehicles, Infantry\n  Weak vs Aircraft
-        Prerequisites: stek
 
 CAMERA.Large:
     Inherits: CAMERA
