@@ -1,3 +1,4 @@
+---Create a table full of cpos between (x1, y1) and (x2, y2)
 ---@param x1 number
 ---@param y1 number
 ---@param x2 number
@@ -13,7 +14,16 @@ local function CreateCposTable(x1, y1, x2, y2)
     return comTable
 end
 
+local ParadropType = "powerproxy.paratroopers"
 local ParabombType = "powerproxy.parabombs"
+
+---@param playerOwner player
+---@param waypointTable table
+local Paradrop = function(playerOwner, waypointTable, proxy, angle)
+    local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
+    local lz = Utils.Random(waypointTable)
+    PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
+end
 
 ---@param owner player
 ---@param proxy string
@@ -100,7 +110,6 @@ local AllAngles = {
     Angle.NorthWest
 }
 
-
 ---@type player
 local Allies = Player.GetPlayer("Allies")
 ---@type player
@@ -155,6 +164,11 @@ Tick = function()
 end
 
 WorldLoaded = function()
+	Lighting.Red = 0.2
+	Lighting.Green = 0.275
+	Lighting.Blue = 0.35
+    Lighting.Ambient = 3
+
     -- SETUP PLAYERS & OTHER INITIAL THINGS
     Allies = Player.GetPlayer("Allies")
     Allies1 = Player.GetPlayer("Allies1")
@@ -182,9 +196,9 @@ WorldLoaded = function()
 
     -- USE FUNCTIONS AND TRIGGERS
     Trigger.AfterDelay(DateTime.Seconds(4), function()
-        Media.DisplayMessage(UserInterface.Translate("make-sure"), UserInterface.Translate(TanyaStr))
+        Media.DisplayMessage(UserInterface.GetFluentMessage("make-sure"), UserInterface.GetFluentMessage(TanyaStr))
         Trigger.AfterDelay(DateTime.Seconds(4), function()
-            Media.DisplayMessage(UserInterface.Translate("disguise-spy"), UserInterface.Translate("spy"))
+            Media.DisplayMessage(UserInterface.GetFluentMessage("disguise-spy"), UserInterface.GetFluentMessage("spy"))
         end)
     end)
 
@@ -237,7 +251,7 @@ WorldLoaded = function()
                 local bombAngle = Utils.Random(AllAngles)
                 Parabomb(Allies, a.CenterPosition, bombAngle, ParabombType)
             end)
-            Media.DisplayMessage(UserInterface.Translate("what-that"), UserInterface.Translate(TanyaStr))
+            Media.DisplayMessage(UserInterface.GetFluentMessage("what-that"), UserInterface.GetFluentMessage(TanyaStr))
             Trigger.AfterDelay(DateTime.Seconds(2), function()
                 Camera.Position = aagn1.CenterPosition
                 Utils.Do(BalatovikGaurds1, function(a)
@@ -257,7 +271,7 @@ WorldLoaded = function()
                         end)
                     end)
 
-                    Media.DisplayMessage(UserInterface.Translate("come-on"), UserInterface.Translate(TanyaStr))
+                    Media.DisplayMessage(UserInterface.GetFluentMessage("come-on"), UserInterface.GetFluentMessage(TanyaStr))
 
                     Utils.Do(Syrd1CaptureFlares, function(a)
                         a.Destroy()
@@ -271,7 +285,7 @@ WorldLoaded = function()
                     Syrd1.Produce("tca")
                     Syrd2.Produce("tca")
 
-                    Media.DisplayMessage(UserInterface.Translate("chase"), UserInterface.Translate(Hint))
+                    Media.DisplayMessage(UserInterface.GetFluentMessage("chase"), UserInterface.GetFluentMessage(Hint))
                 end)
             end)
         end

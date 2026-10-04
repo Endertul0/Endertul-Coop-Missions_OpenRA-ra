@@ -1,5 +1,5 @@
 
-local ProxyType = "powerproxy.paratroopers"
+local PTroopersProxyType = "powerproxy.paratroopers"
 local ParadropWaypoints = { Drop1, Drop2, Drop3, Drop4, Drop5, Drop6, Drop7 }
 local SpainReinforceUnits = { "e1", "e2", "e3", "e4", "e1", "e2", "e3", "e4", "e1", "e2", "e3", "e4", "e1", "e2", "e3", "e4", "e1", "e2", "e3", "e4", "e1", "e2", "e3", "e4" }
 local SpainReinforceUnitsSmall = { "e1", "e2", "e3", "e4", "e1", "e2", "e3", "e4" }
@@ -7,12 +7,48 @@ local USSRReinforceUnits = { "e1", "e2", "e3", "e4", "e1", "e2", "e3", "e4" }
 local WaterTanks = { "1tnk", "1tnk", "jeep", "jeep" }
 local USSRBldgs = { USSRpwr1, USSRpwr2, USSRoreref, USSRcy1, USSRsubpen1 }
 
-local StartTimer = false
+local TimerStarted = false
 local TimerColor = Player.GetPlayer("USSR").Color
-local EndTimerColor = Player.GetPlayer("Spain").Color
-local TimerTicks = DateTime.Minutes(1)
-local Ticked = TimerTicks
-local doOnce1 = false
+local TimerEndColor = Player.GetPlayer("Spain").Color
+local TimerTotalTicks = DateTime.Minutes(1)
+local TimerTicks = TimerTotalTicks
+local USSRHpadSlain = false
+
+---@param playerOwner player
+local ParadropUnits = function(playerOwner)
+	local PowerProxy = Actor.Create(PTroopersProxyType, false, { Owner = playerOwner })
+	local lz = Utils.Random(ParadropWaypoints)
+	PowerProxy.TargetParatroopers(lz.CenterPosition, Angle.East)
+end
+
+---@param playerOwner player
+---@param enter actor
+---@param rally actor
+---@param types string[]
+---@param timeInterval integer
+---@return table
+local SendUnits = function(playerOwner, enter, rally, types, timeInterval)
+	local units = Reinforcements.Reinforce(playerOwner, types, { enter.Location }, timeInterval)
+    for i = 1, #units do
+        units[i].AttackMove(rally.Location)
+    end
+
+    return units
+end
+
+---@param playerOwner player
+---@param types string[]
+---@param enter actor
+---@param rally actor
+---@param exit? actor
+---@return table
+local SendWaterUnits = function(playerOwner, types, enter, rally, exit)
+	exit = exit or enter
+	local units = Reinforcements.ReinforceWithTransport(playerOwner, "lst",
+			types, { enter.Location, rally.Location }, { exit.Location })[2]
+
+	return units
+end
 
 ---@type player
 local Allies1
@@ -28,11 +64,10 @@ local USSR
 local Spain
 
 local StartTimerFunction = function()
-	StartTimer = true
+	TimerStarted = true
 end
 
-
-local TransitArriveTimerEnd = function(hpad)
+local TransitArriveTimerEnd = function()
 	local units = Reinforcements.ReinforceWithTransport(USSR, "tran",
 			USSRReinforceUnits, { HeliEnter.Location, USSRHpad.Location + CVec.New(1, 2) }, { HeliEnter.Location })[2]
 	USSRHFlare.Destroy()
@@ -57,25 +92,25 @@ local TransitArriveTimerEnd = function(hpad)
 end
 
 Tick = function()
-	if StartTimer then
-		if Ticked > 0 then
-			if (Ticked % DateTime.Seconds(1)) == 0 then
-				Timer = UserInterface.Translate("enemy-trans-arrive", { ["time"] = Utils.FormatTime(Ticked) })
+	if TimerStarted then
+		if TimerTicks > 0 then
+			if (TimerTicks % DateTime.Seconds(1)) == 0 then
+				Timer = UserInterface.GetFluentMessage("enemy-trans-arrive", { ["time"] = Utils.FormatTime(TimerTicks) })
 				UserInterface.SetMissionText(Timer, TimerColor)
 			end
-			Ticked = Ticked - 1
-		elseif Ticked == 0 then
+			TimerTicks = TimerTicks - 1
+		elseif TimerTicks == 0 then
 			TransitArriveTimerEnd()
-			Timer = UserInterface.Translate("enemy-trans-arrived")
-			UserInterface.SetMissionText(Timer, EndTimerColor)
-			Ticked = Ticked - 1
+			Timer = UserInterface.GetFluentMessage("enemy-trans-arrived")
+			UserInterface.SetMissionText(Timer, TimerEndColor)
+			TimerTicks = TimerTicks - 1
 		end
 	end
 
-	if USSRHpad.IsDead and not doOnce1 then
-		doOnce1 = true
+	if USSRHpad.IsDead and not USSRHpadSlain then
+		USSRHpadSlain = true
 		Allies1.MarkCompletedObjective(NoLetHeliObj)
-		Media.DisplayMessage(UserInterface.Translate("additional-reinforce"))
+		Media.DisplayMessage(UserInterface.GetFluentMessage("additional-reinforce"))
 		ParadropUnits(Allies1)
 		ParadropUnits(Allies2)
 	end
@@ -125,9 +160,9 @@ WorldLoaded = function()
 
 	Trigger.AfterDelay(DateTime.Seconds(35), function()
 		SendUnits(Spain, SpainInvEnter, SpainInvRally, SpainReinforceUnits, 0)
-		local cam = Actor.Create("Camera", true, { Owner = Allies1, Location = bgInvCam1.Location })
+		Actor.Create("Camera", true, { Owner = Allies1, Location = bgInvCam1.Location })
 		Trigger.AfterDelay(DateTime.Seconds(19), function()
-			local cam = Actor.Create("Camera", true, { Owner = Allies1, Location = bgInvCam2.Location })
+			Actor.Create("Camera", true, { Owner = Allies1, Location = bgInvCam2.Location })
 		end)
 	end)
 

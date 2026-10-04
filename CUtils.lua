@@ -2,7 +2,7 @@
 ---@param y1 number
 ---@param x2 number
 ---@param y2 number
----@return table Returns a table full of `cpos`s between (`x1`, `y1`) and (`x2`, `y2`)
+---@return cpos[] Returns a table full of `cpos`s between (`x1`, `y1`) and (`x2`, `y2`)
 function CreateCposTable(x1, y1, x2, y2)
     local comTable = {}
     for x = x1, x2 do
@@ -40,7 +40,7 @@ end
 ---@param types table { "e1", "e1", "e1", "e3", "e3" }, etc.
 ---@param timeinterval number Time in-between each unit appearing
 ---@param repeatAfter number Integer number of seconds after which to create another group of units
----@return table The spawned units
+---@return actor[] The spawned units
 function SendUnits(playerOwner, enter, rally, types, timeinterval, repeatAfter)
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)

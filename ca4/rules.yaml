@@ -14,11 +14,6 @@ World:
         ParticleColors: 304074, 28386C, 202C60, 182C54
         LineTailAlphaValue: 150
         ParticleSize: 1, 1
-    GlobalLightingPaletteEffect:
-        Red: 0.2
-        Green: 0.275
-        Blue: 0.35
-        Ambient: 3
     MissionData:
         Briefing: Infiltrating the Soviet Tech center has begun. You must commandeer the spies.
     LuaScript:

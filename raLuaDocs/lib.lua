@@ -1,6 +1,10 @@
---- This file only lists function "signatures", causing Lua Diagnostics errors: "Annotations specify that a return value is required here."
+--- This file only lists function "signatures", causing Lua Diagnostics errors:
+--- "Annotations specify that a return value is required here."
 --- Disable that specific error for the entire file.
 ---@diagnostic disable: missing-return
+--- Disable other useless errors that occur due to only defining function "signatures".
+---@diagnostic disable: unused-local
+---@diagnostic disable: redefined-local
 
 
 --- This function is triggered once, after the map is loaded.
@@ -12,12 +16,14 @@ function Tick()
 end
 
 
---- Base engine types.
+-- Base engine types.
+
 ---@class cpos
 ---@field X integer
 ---@field Y integer
 ---@operator add(cvec): cpos
 ---@operator sub(cvec): cpos
+local __cpos = { }
 
 ---@class wpos
 ---@field X integer
@@ -25,14 +31,17 @@ end
 ---@field Z integer
 ---@operator add(wvec): wpos
 ---@operator sub(wvec): wpos
+local __wpos = { }
 
 ---@class wangle
 ---@field Angle integer
 ---@operator add(wangle): wangle
 ---@operator sub(wangle): wangle
+local __wangle = { }
 
 ---@class wdist
 ---@field Length integer
+local __wdist = { }
 
 ---@class wvec
 ---@field X integer
@@ -40,12 +49,14 @@ end
 ---@field Z integer
 ---@operator add(wvec): wvec
 ---@operator sub(wvec): wvec
+local __wvec = { }
 
 ---@class cvec
 ---@field X integer
 ---@field Y integer
 ---@operator add(cvec): cvec
 ---@operator sub(cvec): cvec
+local __cvec = { }
 
 ---@class color
 local color = { };
@@ -521,7 +532,8 @@ Map = {
     end;
 
     --- Returns the location of the top-left corner of the map (assuming zero terrain height).
-    ---@deprecated This function will be removed in future versions. Use Map.ActorsInWorld instead.
+    ---
+    ---@deprecated
     ---@type wpos
     TopLeft = nil;
 }
@@ -537,7 +549,7 @@ Media = {
     --- Display a text message to all players.
     ---@param text string
     ---@param prefix? string
-    ---@param color? color?
+    ---@param color? color
     DisplayMessage = function(text, prefix, color)
     end;
 
@@ -545,7 +557,7 @@ Media = {
     ---@param player player
     ---@param text string
     ---@param prefix? string
-    ---@param color? color?
+    ---@param color? color
     DisplayMessageToPlayer = function(player, text, prefix, color)
     end;
 
@@ -559,7 +571,7 @@ Media = {
     ---@param text string
     ---@param position wpos
     ---@param duration? integer
-    ---@param color? color?
+    ---@param color? color
     FloatingText = function(text, position, duration, color)
     end;
 
@@ -877,7 +889,7 @@ UserInterface = {
 
     --- Displays a text message at the top center of the screen.
     ---@param text string
-    ---@param color? color?
+    ---@param color? color
     SetMissionText = function(text, color)
     end;
 
@@ -1055,7 +1067,7 @@ local __actor = {
     --- Activate the actor's Airstrike Power. Returns the aircraft that will attack.
     --- **Requires Trait:** [AirstrikePower](https://docs.openra.net/en/release/traits/#airstrikepower)
     ---@param target wpos
-    ---@param facing? wangle?
+    ---@param facing? wangle
     ---@return actor[]
     TargetAirstrike = function(target, facing)
     end;
@@ -1432,7 +1444,7 @@ local __actor = {
     --- Activate the actor's Paratroopers Power. Returns the aircraft that will drop the reinforcements.
     --- **Requires Trait:** [ParatroopersPower](https://docs.openra.net/en/release/traits/#paratrooperspower)
     ---@param target wpos
-    ---@param facing? wangle?
+    ---@param facing? wangle
     ---@return actor[]
     TargetParatroopers = function(target, facing)
     end;
@@ -1523,7 +1535,7 @@ local __actor = {
     --- Command transport to unload passengers.
     --- *Queued Activity*
     --- **Requires Trait:** [Cargo](https://docs.openra.net/en/release/traits/#cargo)
-    ---@param cell? cpos?
+    ---@param cell? cpos
     ---@param unloadRange? integer
     UnloadPassengers = function(cell, unloadRange)
     end;

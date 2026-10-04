@@ -97,12 +97,12 @@ Actors:
 	HeliFlare: flare
 		Owner: Allies
 		Location: 21,9
-	A1Spy: spy.strong
+	A1Spy: SPY.Strong
 		Owner: Allies1
 		SubCell: 3
 		Location: 20,9
 		Facing: 800
-	A2Spy: spy.strong
+	A2Spy: SPY.Strong
 		SubCell: 3
 		Location: 22,10
 		Owner: Allies2

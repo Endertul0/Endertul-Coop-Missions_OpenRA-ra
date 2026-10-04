@@ -127,7 +127,11 @@ local function InfiltrateCutscene()
 end
 
 WorldLoaded = function()
-    -- SETUP PLAYERS & OTHER INITIAL THINGS
+	Lighting.Red = 0.75
+	Lighting.Green = 0.7
+	Lighting.Blue = 0.65
+    Lighting.Ambient = 4
+
     Allies = Player.GetPlayer("Allies")
     Allies1 = Player.GetPlayer("Allies1")
     Allies2 = Player.GetPlayer("Allies2")
