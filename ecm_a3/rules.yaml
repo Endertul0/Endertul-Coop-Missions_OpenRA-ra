@@ -17,7 +17,7 @@ World:
     MissionData:
         Briefing: Balatovik's transport has been shot down! Get your spy to the Tech Center, before he escapes, to disable his transport capabilities.
     LuaScript:
-        Scripts: campaign.lua, utils.lua, ca3.lua
+        Scripts: campaign.lua, utils.lua, ecm_a3.lua
     ScriptLobbyDropdown@difficulty:
         ID: difficulty
         Label: dropdown-difficulty.label

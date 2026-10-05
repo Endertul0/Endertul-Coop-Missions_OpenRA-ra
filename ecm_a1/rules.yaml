@@ -6,7 +6,7 @@ World:
 	MissionData:
 		Briefing: Commander! Reports of an active USSR base in the middle of Allied land have reached us. Additional reinforcements are en route to the base. You must stop them!
 	LuaScript:
-		Scripts: campaign.lua, utils.lua, ca1.lua
+		Scripts: campaign.lua, utils.lua, ecm_a1.lua
 	ScriptLobbyDropdown@difficulty:
 		ID: difficulty
 		Label: dropdown-difficulty.label

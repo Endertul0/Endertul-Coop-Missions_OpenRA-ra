@@ -17,7 +17,7 @@ World:
     MissionData:
         Briefing: Infiltrating the Soviet Tech center has begun. You must commandeer the spies.
     LuaScript:
-        Scripts: campaign.lua, utils.lua, ca4.lua
+        Scripts: campaign.lua, utils.lua, ecm_a4.lua
     ScriptLobbyDropdown@difficulty:
         ID: difficulty
         Label: dropdown-difficulty.label

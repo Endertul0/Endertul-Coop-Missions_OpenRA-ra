@@ -6,7 +6,7 @@ World:
 	MissionData:
 		Briefing: Commander, the USSR are unhappy from the recent destruction of a base. They are preparing to- uh oh. Commander, you- *bzzzzt* *static*\nMisson - recover communications with Tanya, who will assist in exterminating the threat.
 	LuaScript:
-		Scripts: campaign.lua, utils.lua, ca2.lua
+		Scripts: campaign.lua, utils.lua, ecm_a2.lua
 	ScriptLobbyDropdown@difficulty:
 		ID: difficulty
 		Label: dropdown-difficulty.label

@@ -15,8 +15,95 @@ end
 function Tick()
 end
 
+--#region
+Difficulty = Map.LobbyOptionOrDefault("difficulty", "normal")
 
--- Base engine types.
+InitObjectives = function(player)
+	Trigger.OnObjectiveCompleted(player, function(p, id)
+		Media.DisplayMessage(p.GetObjectiveDescription(id), UserInterface.GetFluentMessage("objective-completed"))
+	end)
+	Trigger.OnObjectiveFailed(player, function(p, id)
+		Media.DisplayMessage(p.GetObjectiveDescription(id), UserInterface.GetFluentMessage("objective-failed"))
+	end)
+
+	Trigger.OnPlayerLost(player, function()
+		Trigger.AfterDelay(DateTime.Seconds(1), function()
+			Media.PlaySpeechNotification(player, "MissionFailed")
+		end)
+	end)
+
+	Trigger.OnPlayerWon(player, function()
+		Trigger.AfterDelay(DateTime.Seconds(1), function()
+			Media.PlaySpeechNotification(player, "MissionAccomplished")
+		end)
+	end)
+end
+
+AttackAircraftTargets = { }
+InitializeAttackAircraft = function(aircraft, enemyPlayer)
+	Trigger.OnIdle(aircraft, function()
+		local actorId = tostring(aircraft)
+		local target = AttackAircraftTargets[actorId]
+
+		if not target or not target.IsInWorld then
+			target = ChooseRandomTarget(aircraft, enemyPlayer)
+		end
+
+		if target then
+			AttackAircraftTargets[actorId] = target
+			aircraft.Attack(target)
+		else
+			AttackAircraftTargets[actorId] = nil
+			aircraft.ReturnToBase()
+		end
+	end)
+end
+
+ChooseRandomTarget = function(unit, enemyPlayer)
+	local target = nil
+	local enemies = Utils.Where(enemyPlayer.GetActors(), function(self)
+		return self.HasProperty("Health") and unit.CanTarget(self) and not Utils.Any({ "sbag", "fenc", "brik", "cycl", "barb" }, function(type) return self.Type == type end)
+	end)
+	if #enemies > 0 then
+		target = Utils.Random(enemies)
+	end
+	return target
+end
+
+OnAnyDamaged = function(actors, func)
+    Utils.Do(actors, function(actor)
+        Trigger.OnDamaged(actor, func)
+    end)
+end
+--#endregion
+
+--#region utils.lua
+IdleHunt = function(actor)
+    if actor.HasProperty("Hunt") and not actor.IsDead then
+        Trigger.OnIdle(actor, actor.Hunt)
+    end
+end
+
+---Adds a new mandatory objective, translates it and announces it via in-game chat message.
+---@param player player recipient of the objective
+---@param description string key of the translation string
+---@return number id used to query for the objective later
+AddPrimaryObjective = function(player, description)
+    local translation = UserInterface.GetFluentMessage(description)
+    Media.DisplayMessageToPlayer(player, translation, UserInterface.GetFluentMessage("new-primary-objective"))
+    return player.AddObjective(translation, UserInterface.GetFluentMessage("primary"), true)
+end
+
+---Adds a new optional objective, translates it and announces it via in-game chat message.
+---@param player player recipient of the objective
+---@param description string key of the translation string
+---@return number id used to query for the objective later
+AddSecondaryObjective = function(player, description)
+    local translation = UserInterface.GetFluentMessage(description)
+    Media.DisplayMessageToPlayer(player, translation, UserInterface.GetFluentMessage("new-secondary-objective"))
+    return player.AddObjective(translation, UserInterface.GetFluentMessage("secondary"), false)
+end
+--#endregion
 
 ---@class cpos
 ---@field X integer

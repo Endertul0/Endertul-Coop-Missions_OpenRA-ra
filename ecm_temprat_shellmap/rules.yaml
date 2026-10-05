@@ -17,7 +17,7 @@ World:
 		AllowMuteBackgroundMusic: true
 		DisableWorldSounds: true
 	LuaScript:
-		Scripts: temprat-shellmap.lua
+		Scripts: campaign.lua, utils.lua, ecm_temprat_shellmap.lua
 	-StartGameNotification:
 
 ^ExistsInWorld:
