@@ -3,7 +3,7 @@
 ---@param y1 number
 ---@param x2 number
 ---@param y2 number
-local CreateCposTable = function(x1, y1, x2, y2)
+local function CreateCposTable(x1, y1, x2, y2)
     local comTable = {}
     for x = x1, x2 do
         for y = y1, y2 do
@@ -15,7 +15,7 @@ end
 
 ---@param playerOwner player
 ---@param wayointTable table
-local ParadropUnits = function(playerOwner, wayointTable, proxy, angle)
+local function ParadropUnits(playerOwner, wayointTable, proxy, angle)
     local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
     local lz = Utils.Random(wayointTable)
     PowerProxy.TargetParatroopers(lz.CenterPosition, angle)
@@ -27,7 +27,7 @@ end
 ---@param types table
 ---@param timeinterval number
 ---@param repeatAfter number
-local SendUnits = function(playerOwner, enter, rally, types, timeinterval, repeatAfter)
+local function SendUnits(playerOwner, enter, rally, types, timeinterval, repeatAfter)
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)
     Utils.Do(units, function(a)
@@ -48,7 +48,7 @@ end
 ---@param rally cpos
 ---@param exit cpos
 ---@return table
-local SendTransport = function(playerOwner, transType, types, enter, rally, exit, repeatAfter)
+local function SendTransport(playerOwner, transType, types, enter, rally, exit, repeatAfter)
     exit = exit or enter
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
@@ -99,7 +99,7 @@ local SpainTranInterval = SpainBridgeinterval*2 / 3
 local Ticks = 0
 local Speed = 4
 
-local BindActorTriggers = function(a)
+local function BindActorTriggers(a)
     if a.HasProperty("Hunt") then
         if a.Owner == Allies then
             Trigger.OnIdle(a, function(a)
@@ -157,7 +157,7 @@ Tick = function()
     Camera.Position = ViewportOrigin + WVec.New(19200 * math.sin(t), 20480 * math.cos(t), 0)
 end
 
-local SetupExistingUnits = function()
+local function SetupExistingUnits()
     Utils.Do(Map.ActorsInWorld, function(a)
         if a.HasProperty("AcceptsCondition") and a.AcceptsCondition("unkillable") then
             a.GrantCondition("unkillable")
@@ -166,7 +166,7 @@ local SetupExistingUnits = function()
     end)
 end
 
-local ProduceUnits = function(t)
+local function ProduceUnits(t)
     local factory = t.factory
     if not factory.IsDead then
         local unitType = t.types[Utils.RandomInteger(1, #t.types + 1)]
@@ -178,7 +178,7 @@ local ProduceUnits = function(t)
     end
 end
 
-local SetupFactories = function()
+local function SetupFactories()
     Utils.Do(ProducedUnitTypes, function(production)
         Trigger.OnProduction(production.factory, function(_, a)
             BindActorTriggers(a)

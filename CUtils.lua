@@ -3,7 +3,7 @@
 ---@param x2 number
 ---@param y2 number
 ---@return cpos[] Returns a table full of `cpos`s between (`x1`, `y1`) and (`x2`, `y2`)
-function CreateCposTable(x1, y1, x2, y2)
+local function CreateCposTable(x1, y1, x2, y2)
     local comTable = {}
     for x = x1, x2 do
         for y = y1, y2 do
@@ -16,7 +16,7 @@ end
 ---@param playerOwner player
 ---@param withinCposTable table Land paratroopers within this area
 ---@param proxy string
-function Paradrop(playerOwner, withinCposTable, angle, proxy)
+local function Paradrop(playerOwner, withinCposTable, angle, proxy)
     angle = angle or Angle.NorthEast
     proxy = proxy or "powerproxy.paratroopers"
     local PowerProxy = Actor.Create(proxy, false, { Owner = playerOwner })
@@ -27,7 +27,7 @@ end
 ---@param owner player
 ---@param proxy string
 ---@param pos wpos
-function Parabomb(owner, pos, angle, proxy)
+local function Parabomb(owner, pos, angle, proxy)
     angle = angle or Angle.NorthEast
     proxy = proxy or "powerproxy.parabombs"
     local power = Actor.Create(proxy, false, { Owner = owner })
@@ -41,7 +41,7 @@ end
 ---@param timeinterval number Time in-between each unit appearing
 ---@param repeatAfter number Integer number of seconds after which to create another group of units
 ---@return actor[] The spawned units
-function SendUnits(playerOwner, enter, rally, types, timeinterval, repeatAfter)
+local function SendUnits(playerOwner, enter, rally, types, timeinterval, repeatAfter)
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.Reinforce(playerOwner, types, { enter }, timeinterval)
     Utils.Do(units, function(a)
@@ -63,7 +63,7 @@ end
 ---@param exit cpos
 ---@param repeatAfter number Integer number of seconds after which to create another transport
 ---@return table Returns a table in which index 1 is the transport and index 2 is a table containing the units inside the transport.
-function SendTransport(playerOwner, transType, types, enter, rally, exit, repeatAfter)
+local function SendTransport(playerOwner, transType, types, enter, rally, exit, repeatAfter)
     exit = exit or enter
     repeatAfter = repeatAfter or -1
     local units = Reinforcements.ReinforceWithTransport(playerOwner, transType,
