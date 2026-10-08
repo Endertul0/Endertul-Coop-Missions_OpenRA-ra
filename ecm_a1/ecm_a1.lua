@@ -95,13 +95,13 @@ Tick = function()
 	if TimerStarted then
 		if TimerTicks > 0 then
 			if (TimerTicks % DateTime.Seconds(1)) == 0 then
-				Timer = UserInterface.GetFluentMessage("enemy-trans-arrive", { ["time"] = Utils.FormatTime(TimerTicks) })
+				Timer = UserInterface.Translate("enemy-trans-arrive", { ["time"] = Utils.FormatTime(TimerTicks) })
 				UserInterface.SetMissionText(Timer, TimerColor)
 			end
 			TimerTicks = TimerTicks - 1
 		elseif TimerTicks == 0 then
 			TransitArriveTimerEnd()
-			Timer = UserInterface.GetFluentMessage("enemy-trans-arrived")
+			Timer = UserInterface.Translate("enemy-trans-arrived")
 			UserInterface.SetMissionText(Timer, TimerEndColor)
 			TimerTicks = TimerTicks - 1
 		end
@@ -110,7 +110,7 @@ Tick = function()
 	if USSRHpad.IsDead and not USSRHpadSlain then
 		USSRHpadSlain = true
 		Allies1.MarkCompletedObjective(NoLetHeliObj)
-		Media.DisplayMessage(UserInterface.GetFluentMessage("additional-reinforce"))
+		Media.DisplayMessage(UserInterface.Translate("additional-reinforce"))
 		ParadropUnits(Allies1)
 		ParadropUnits(Allies2)
 	end

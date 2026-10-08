@@ -27,13 +27,13 @@ Tick = function()
     if StartTimer then
         if Ticked > 0 then
             if (Ticked % DateTime.Seconds(1)) == 0 then
-                Timer = UserInterface.GetFluentMessage("enemy-trans-arrive", { ["time"] = Utils.FormatTime(Ticked) })
+                Timer = UserInterface.Translate("enemy-trans-arrive", { ["time"] = Utils.FormatTime(Ticked) })
                 UserInterface.SetMissionText(Timer, TimerColor)
             end
             Ticked = Ticked - 1
         elseif Ticked == 0 then
             TransitArriveTimerEnd()
-            Timer = UserInterface.GetFluentMessage("enemy-trans-arrived")
+            Timer = UserInterface.Translate("enemy-trans-arrived")
             UserInterface.SetMissionText(Timer, EndTimerColor)
             Ticked = Ticked - 1
         end
@@ -41,7 +41,7 @@ Tick = function()
 
     if HoldOut.HasNoRequiredUnits() and not once1 then
         once1 = true
-        Media.DisplayMessage(UserInterface.GetFluentMessage("getting-away"), UserInterface.GetFluentMessage("tanya"))
+        Media.DisplayMessage(UserInterface.Translate("getting-away"), UserInterface.Translate("tanya"))
 
         Trigger.AfterDelay(DateTime.Seconds(10), function()
             Utils.Do(Humans, function(player)
@@ -62,7 +62,7 @@ local SendWaterUnits = function()
     local transportPath1 = { WaterWayEnter.Location, WaterWay1.Location, WaterWay2.Location, Unload1.Location }
     local transportPath2 = { WaterWayEnter.Location, WaterWay1.Location, WaterWay2.Location, Unload2.Location }
     local transportPath3 = { WaterWayEnter.Location, WaterWay1.Location, WaterWay2.Location, Unload2.Location }
-    Media.DisplayMessage(UserInterface.GetFluentMessage("almost-there"), UserInterface.GetFluentMessage("tanya"))
+    Media.DisplayMessage(UserInterface.Translate("almost-there"), UserInterface.Translate("tanya"))
     Trigger.AfterDelay(DateTime.Seconds(14), function()
         local transport1 = Reinforcements.ReinforceWithTransport(Allies1, WaterTransportType,
                 WaterTypes, transportPath1, { WaterWayEnter.Location })[2]
@@ -83,12 +83,12 @@ local SendWaterUnits = function()
                 local tanyaTransport = Reinforcements.ReinforceWithTransport(Allies, AirTransportType,
                         TanyaTypes, transportPath3, { WaterWayEnter.Location } )[2]
                 Trigger.AfterDelay(DateTime.Seconds(16), function()
-                    Media.DisplayMessage(UserInterface.GetFluentMessage("all-handled"), UserInterface.GetFluentMessage("tanya"))
+                    Media.DisplayMessage(UserInterface.Translate("all-handled"), UserInterface.Translate("tanya"))
                     Utils.Do(tanyaTransport, function(unit)
                         unit.Move(AAtek.Location)
                     end)
                 end)
-                Media.DisplayMessage(UserInterface.GetFluentMessage("nice-job"), UserInterface.GetFluentMessage("tanya"))
+                Media.DisplayMessage(UserInterface.Translate("nice-job"), UserInterface.Translate("tanya"))
             end)
         end)
     end)

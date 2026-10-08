@@ -196,9 +196,9 @@ WorldLoaded = function()
 
     -- USE FUNCTIONS AND TRIGGERS
     Trigger.AfterDelay(DateTime.Seconds(4), function()
-        Media.DisplayMessage(UserInterface.GetFluentMessage("make-sure"), UserInterface.GetFluentMessage(TanyaStr))
+        Media.DisplayMessage(UserInterface.Translate("make-sure"), UserInterface.Translate(TanyaStr))
         Trigger.AfterDelay(DateTime.Seconds(4), function()
-            Media.DisplayMessage(UserInterface.GetFluentMessage("disguise-spy"), UserInterface.GetFluentMessage("spy"))
+            Media.DisplayMessage(UserInterface.Translate("disguise-spy"), UserInterface.Translate("spy"))
         end)
     end)
 
@@ -251,7 +251,7 @@ WorldLoaded = function()
                 local bombAngle = Utils.Random(AllAngles)
                 Parabomb(Allies, a.CenterPosition, bombAngle, ParabombType)
             end)
-            Media.DisplayMessage(UserInterface.GetFluentMessage("what-that"), UserInterface.GetFluentMessage(TanyaStr))
+            Media.DisplayMessage(UserInterface.Translate("what-that"), UserInterface.Translate(TanyaStr))
             Trigger.AfterDelay(DateTime.Seconds(2), function()
                 Camera.Position = aagn1.CenterPosition
                 Utils.Do(BalatovikGaurds1, function(a)
@@ -271,7 +271,7 @@ WorldLoaded = function()
                         end)
                     end)
 
-                    Media.DisplayMessage(UserInterface.GetFluentMessage("come-on"), UserInterface.GetFluentMessage(TanyaStr))
+                    Media.DisplayMessage(UserInterface.Translate("come-on"), UserInterface.Translate(TanyaStr))
 
                     Utils.Do(Syrd1CaptureFlares, function(a)
                         a.Destroy()
@@ -285,7 +285,7 @@ WorldLoaded = function()
                     Syrd1.Produce("tca")
                     Syrd2.Produce("tca")
 
-                    Media.DisplayMessage(UserInterface.GetFluentMessage("chase"), UserInterface.GetFluentMessage(Hint))
+                    Media.DisplayMessage(UserInterface.Translate("chase"), UserInterface.Translate(Hint))
                 end)
             end)
         end
