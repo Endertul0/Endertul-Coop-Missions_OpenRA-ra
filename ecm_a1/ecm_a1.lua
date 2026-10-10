@@ -115,7 +115,13 @@ Tick = function()
 		ParadropUnits(Allies2)
 	end
 
-	local allDead = USSRBldgs[1].IsDead and USSRBldgs[1].IsDead and USSRBldgs[1].IsDead and USSRBldgs[1].IsDead and USSRBldgs[1].IsDead
+	local allDead = true
+	for _, bldg in ipairs(USSRBldgs) do
+		if not bldg.IsDead then
+			allDead = false
+			break
+		end
+	end
 	if allDead then
 		Allies1.MarkCompletedObjective(DestroyBaddiesObj)
 		Allies1.MarkCompletedObjective(NoLetHeliObj)
@@ -128,25 +134,6 @@ Tick = function()
 			end
 		end
 	end
-end
-
-local ParadropUnits = function(playerOwner)
-	local PowerProxy = Actor.Create(ProxyType, false, { Owner = playerOwner })
-	local lz = Utils.Random(ParadropWaypoints)
-	PowerProxy.TargetParatroopers(lz.CenterPosition, Angle.East)
-end
-
-local SendUnits = function(playerOwner, enter, rally, types, timeInterval)
-	local units = Reinforcements.Reinforce(playerOwner, types, { enter.Location }, timeInterval)
-	for i = 1, table.getn(units) do
-		units[i].AttackMove(rally.Location)
-	end
-end
-
-local SendWaterUnits = function(playerOwner, types, enter, rally, exit)
-	exit = exit or enter
-	local units = Reinforcements.ReinforceWithTransport(playerOwner, "lst",
-			types, { enter.Location, rally.Location }, { exit.Location })[2]
 end
 
 WorldLoaded = function()
